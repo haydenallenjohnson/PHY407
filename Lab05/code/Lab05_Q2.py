@@ -30,7 +30,7 @@ bar.set_label("greyscale")
 plt.title("Blurry image")
 plt.xlabel("x")
 plt.ylabel("y")
-plt.savefig("blurred_image.png", dpi=600)
+plt.savefig("../images/blurred_image.png", dpi=600)
 plt.show()
 
 #define variables for spread function computation
@@ -53,12 +53,12 @@ for i in range(N):
 #create density plot of spread function
 plt.figure()
 plt.imshow(gauss_grid, cmap='gray')
-plt.colorbar()
+bar = plt.colorbar()
 bar.set_label("brightness")
 plt.title("Gaussian point spread function")
 plt.xlabel("x")
 plt.ylabel("y")
-plt.savefig("spread_function.png", dpi=600)
+plt.savefig("../images/spread_function.png", dpi=600)
 plt.show()
 
 #fourier transform the data and spread function
@@ -85,10 +85,10 @@ sharp_data = irfft2(sharp_data_fft)
 #create density plot of deconvolved image
 plt.figure()
 plt.imshow(sharp_data, cmap='gray')
-plt.colorbar()
+bar = plt.colorbar()
 bar.set_label("greyscale")
 plt.title("Deconvolved imgae")
 plt.xlabel("x")
 plt.ylabel("y")
-plt.savefig("deconvolved_image.png", dpi=600)
+plt.savefig("../images/deconvolved_image.png", dpi=600)
 plt.show()
