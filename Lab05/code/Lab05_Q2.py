@@ -18,7 +18,7 @@ def Gaussian(x,y,sigma):
     return np.exp(-(x**2 + y**2)/(2.0*sigma**2))
 
 #read in blurred data file
-source_file = "blur.txt"
+source_file = "../data/blur.txt"
 with open(source_file) as file:
     data = np.array([[float(digit) for digit in line.split()] for line in file])
     
