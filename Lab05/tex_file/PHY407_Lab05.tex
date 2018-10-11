@@ -19,11 +19,75 @@
 
 \maketitle
 
-\noindent \textbf{Distribution of work:}
+\noindent \textbf{Distribution of work:} Question 1 was completed by Hayden. Question 2 was completed by Pierino.
 
-\section{More important stuff}
+\section{Basic Applications of the Fourier Transform}
 
-\includegraphics{../images/name.png}
+\subsection{a) Newman 7.2: Detecting Periodicity}
+
+\subsubsection{Part a)}
+
+We seek to plot the data contained in the file sunspots.txt and estimate the period of the cyclic component of the data.
+
+A plot of the sunspot data is shown in figure \ref{fig:1a_timeseries}, from which it is clear that there is a regular cycle of fluctuations present in the data. A zoomed in section is shown in figure \ref{fig:1a_timeseries_zoom}, from which it can bee seen that the period of the cycle is roughly:
+\begin{align*}
+	T &\approx \frac{2970 - 2590}{3} \\
+	&\approx 127 \text{months}
+\end{align*}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/1a_timeseries.png}
+	\caption{Plot showing the number of observed sunspots over time.}
+	\label{fig:1a_timeseries}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/1a_timeseries_zoomed.png}
+	\caption{Zoomed in section of figure \ref{fig:1a_timeseries}.}
+	\label{fig:1a_timeseries_zoom}
+\end{figure}
+
+\subsubsection{Part b)}
+
+We want to calculate the power spectrum of the sunspot data, and plot it.
+
+The Fourier coefficients of the sunspot data were calculated using np.fft.rfft(), and then the magnitude squared of the coefficients was calculated using np.abs(), which computes the magnitude of a complex number, and squaring this result. A plot of the power spectrum is shown in figure \ref{fig:1a_fourier}. A zoomed in plot of the relevant features is shown in figure \ref{fig:1a_fourier_zoom}, from which it can be seen that there is a clear peak at a non-zero value of $k$.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/1a_fourier.png}
+	\caption{Fourier transform of the data shown in figure \ref{fig:1a_timeseries}.}
+	\label{fig:1a_fourier}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/1a_fourier_zoomed.png}
+	\caption{Zoomed in section of figure \ref{fig:1a_fourier}.}
+	\label{fig:1a_fourier_zoom}
+\end{figure}
+
+\subsubsection{Part c)}
+
+We would like to determine the number of the Fourier coefficient at which the peak occurs, and figure out what period of sine wave corresponds to this number coefficient.
+
+As can be seen from figure \ref{fig:1a_fourier_zoom}, the peak in the Fourier transform occurs at the coefficient with $k\approx 24$. The frequency that corresponds to this number coefficient is:
+\begin{equation*}
+	f = \frac{k}{L}
+\end{equation*}
+where $L = 3143$ is the length of the interval covered by the data. Thus, the period is:
+\begin{equation*}
+	T = \frac{L}{k} = \frac{3143}{24} \approx 131 \text{months}
+\end{equation*}
+This is in fairly good agreement with the value of $T\approx 127$ months that we found by eye in part a), as we should expect it to be.
+
+\subsection{b) Newman 7.4: Fourier Filtering and Smoothing}
+
+\subsubsection{Part a)}
+
+
 
 \section{Newman 7.9: Image Deconvolution}
 The Fourier transform is very useful for filtering out noise from a given data set. Extending this principle to a set of two dimensional data that corresponds to an image, we can perform a deconvolution of the image and output a sharper image. This question does exactly this by computing the Fourier transform of a blurry image and a point spread function, combining the two through the relation $a_{kl} = \frac{b_{kl}}{f_{kl}}$ where $a_{kl}$ is the Fourier transform of the clear image data, $b_{kl}$ is the Fourier transform of the blurry image data, and $f_{kl}$ is the Fourier transform of the point spread function.
