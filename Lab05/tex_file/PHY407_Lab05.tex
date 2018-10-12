@@ -19,7 +19,7 @@
 
 \maketitle
 
-\noindent \textbf{Distribution of work:} Question 1 was completed by Hayden. Question 2 was completed by Pierino.
+\noindent \textbf{Distribution of work:} Question 1 parts a through c were completed by Hayden. Question 1 part d and question 2 were completed by Pierino.
 
 \section{Basic Applications of the Fourier Transform}
 
@@ -98,11 +98,9 @@ This was done using np.loadtxt() and matplotlib.pyplot. The graph produced is sh
 	\label{fig:1b_dow}
 \end{figure}
 
-\subsubsection{Part d)}
+\subsubsection{Part d) \& e)}
 
 After computing the Fourier transform of the DOW data and then setting the last 90\% of the coefficients to zero, we then want to compute the inverse Fourier transform of the filtered Fourier coefficients and plot this on the same graph as the original data.
-
-The filtering of the data was achieved by taking the Fourier transform of the DOW data, and then setting the last 90\% of the coefficients to zero, and finally using np.fft.irfft() to take the inverse Fourier transform of the filtered coefficients, as suggested. This filtered inverse Fourier transform is plotted along with the original data in figure \ref{fig:1b_filtered_10}. The higher number Fourier coefficients correspond to higher frequency components of the data when viewed as a periodic function. We see from the graph that by manually setting these higher frequency components to zero, 
 
 \begin{figure}[H]
 	\centering
@@ -111,6 +109,8 @@ The filtering of the data was achieved by taking the Fourier transform of the DO
 	\label{fig:1b_filtered_10}
 \end{figure}
 
+The filtering of the data was achieved by taking the Fourier transform of the DOW data, and then setting the last 90\% of the coefficients to zero, and finally using np.fft.irfft() to take the inverse Fourier transform of the filtered coefficients, as suggested. This filtered inverse Fourier transform is plotted along with the original data in figure \ref{fig:1b_filtered_10}. The higher number Fourier coefficients correspond to higher frequency components of the data when viewed as a periodic function. We see from the graph that by manually setting these higher frequency components to zero, the small-scale fluctuations in the data are smoothed over, so to speak, and the filtered function traces over the general shape of the original data while ignoring the quick deviations from the general trend. Indeed, we see that applying an even stronger filter of keeping only the first 2\% of coefficients non-zero takes the smoothing even farther, as seen in figure \ref{fig:1b_filtered_02}, with the filtered function ignoring even moderately sized peaks and troughs in the data and just tracing out an average value of sorts.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../images/1b_filtered_02.png}
@@ -118,14 +118,38 @@ The filtering of the data was achieved by taking the Fourier transform of the DO
 	\label{fig:1b_filtered_02}
 \end{figure}
 
+\subsection{c) Newman 7.6: Comparison of the DFT and DCT}
+
+\subsubsection{Part a)}
+
+We want to write a program analogous to that of part e) of Newman 7.4, which extracts data from the dow2.txt file, takes the Fourier transform of it, sets all but the first 2\% of the Fourier coefficients to be zero, and then takes the inverse Fourier transform of the filtered coefficients and plots both this and the original data.
+
+The data from dow2.txt were extracted, the Fourier transform taken, the last 98\% of the coefficients set to zero, the inverse Fourier transform taken, and the filtered and original data plotted in figure \ref{fig:1c_dft}, just as was done in part e) of Newman 7.4. As can be seen from the plot in figure \ref{fig:1c_dft}, the filtered data does a fairly good job of tracking the general shape of the original data across most of the domain, but it deviates considerably from the original at the endpoints. This is exactly the expected behaviour described in Newman, which occurs as a result of the fact that the Fourier transform requires the function to be periodic, and by throwing away the high-frequency coefficients, we have limited the ability of the function to jump very quickly between the two values which it would like to take at the endpoints, and instead it must traverse the gap more gradually.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{../images/1c_dft.png}
+	\caption{Plot showing DOW closing value data from 2004 to 2008, as well as a smoothed version of the data calculated by setting all but the first 2\% of the coefficients of the discrete Fourier transform to be zero and taking the inverse discrete Fourier transform of this filtered set of coefficients.}
+	\label{fig:1c_dft}
+\end{figure}
+
+\subsubsection{Part b)}
+
+We seek to repeat part a), but instead of using the discrete Fourier transform, using the discrete cosine transform, in order to avoid the undesirable behaviour of the filtered function near the endpoints.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.75\textwidth]{../images/1c_dct.png}
+	\caption{Plot showing DOW closing value data from 2004 to 2008, as well as a smoothed version of the data calculated by setting all but the first 2\% of the coefficients of the discrete cosine transform to be zero and taking the inverse discrete cosine transform of this filtered set of coefficients.}
+	\label{fig:1c_dct}
+\end{figure}
+
+Using the functions for the discrete cosine transform and the inverse discrete cosine transform included in the file dcst.py provided online by Newman, the code from part a) was modified to compute the discrete cosine transform of the original data, set all but the first 2\% of these coefficients to be zero, and then take the inverse discrete cosine transform of the filtered coefficients to produce a smoothed version of the function. The result is plotted in figure \ref{fig:1c_dct}, from which it can be seen that the filtered function does indeed match the original data much better near the endpoints than the filtered function obtained from the discrete Fourier transform of the same data with the same fraction of non-zero coefficients. As discussed in Newman, this result is expected because, unlike the discrete Fourier transform, the discrete cosine transform does not require the value of the function to be the same at both endpoints.
 
 \subsection{d) Newman 7.3: Musical Instruments}
 For this question we aim to take waveform data, provided via Newman's Computational Physics site, for two instruments, a piano and a trumpet, and perform a Fourier transform on the data sets to retrieve the initial note played on each instruments. 
 
 \subsubsection{Part a)}
-The data from the piano.txt and trumpet.txt files read into the program and graphed in figure \ref{fig:piano_wave} and \ref{fig:trumpet_wave} respectively to show the waveform corresponding to a note played on each instrument.
-From the waveforms we can see how differently the two instruments operate. When a note is played on a piano the hammer striking the wire causes an initial peak in the waveform and then it dampens out. Alternatively, since a trumpet requires air to be passed through to create a note, we see that on the waveform after the musician begins to play the note the intensity remains near constant until the player stops. 
-A Fourier transform was applied to the waveforms and the magnitudes of the first 10,000 Fourier coefficients are plotted in figures \ref{fig:piano_fft} and \ref{fig:trumpet_fft}. From the Fourier transform of each waveform we see that, as expected based on the shape of their waveforms, the piano note is quite isolated. When a note is struck by the hammer the harmonic notes experience a minimal resonance producing just once major peak on the Fourier transform (fig \ref{fig:piano_fft}). For the trumpet however, the note is produced via waves from the series of tubing and as a result the note is more full and resonants more with the harmonics, which we can see by the several large peaks on its Fourier transform (fig:\ref{fig:trumpet_fft}).  
 
 \begin{figure}[H]
 	\centering
@@ -133,6 +157,10 @@ A Fourier transform was applied to the waveforms and the magnitudes of the first
 	\caption{Plot of the waveform for a note played on a piano, sampled at $44.1kHz$, and provide from the piano.txt data file available on the Newman Computational Physics site.}
 	\label{fig:piano_wave}
 \end{figure}
+
+The data from the piano.txt and trumpet.txt files read into the program and graphed in figure \ref{fig:piano_wave} and \ref{fig:trumpet_wave} respectively to show the waveform corresponding to a note played on each instrument.
+From the waveforms we can see how differently the two instruments operate. When a note is played on a piano the hammer striking the wire causes an initial peak in the waveform and then it dampens out. Alternatively, since a trumpet requires air to be passed through to create a note, we see that on the waveform after the musician begins to play the note the intensity remains near constant until the player stops. 
+A Fourier transform was applied to the waveforms and the magnitudes of the first 10,000 Fourier coefficients are plotted in figures \ref{fig:piano_fft} and \ref{fig:trumpet_fft}. From the Fourier transform of each waveform we see that, as expected based on the shape of their waveforms, the piano note is quite isolated. When a note is struck by the hammer the harmonic notes experience a minimal resonance producing just once major peak on the Fourier transform (fig \ref{fig:piano_fft}). For the trumpet however, the note is produced via waves from the series of tubing and as a result the note is more full and resonants more with the harmonics, which we can see by the several large peaks on its Fourier transform (fig:\ref{fig:trumpet_fft}).  
 
 \begin{figure}[H]
 	\centering
@@ -173,17 +201,17 @@ Using the blur.txt data file from Newman's Computational Physics site, a greysca
 
 \begin{figure}[H]
 	\centering
-	\includegraphics{../images/blurred_image.png}
+	\includegraphics[width=0.8\textwidth]{../images/blurred_image.png}
 	\caption{Density plot of provided data shows a blurred image in greyscale.}
 	\label{fig:blurred_image}	
 \end{figure}
 
 \subsection{Part b)}
-The Gaussian point spread function $f(x,y) = exp(-\frac{x^2+y^2}{2\sigma^2})$, periodic in the interval of the original data, was computed for each point of the corresponding blurred image, starting with $(x=0,y=0)$ in the top-left corner. A brightness graph of the spread function is shown in figure \ref{fig:spread_func}
+The Gaussian point spread function $f(x,y) = exp(-\frac{x^2+y^2}{2\sigma^2})$, periodic in the interval of the original data, was computed for each point of the corresponding blurred image, starting with $(x=0,y=0)$ in the top-left corner. A brightness graph of the spread function is shown in figure \ref{fig:spread_func}.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics{../images/spread_function.png}
+	\includegraphics[width=0.8\textwidth]{../images/spread_function.png}
 	\caption{Plot of the Gaussian point spread function with $\sigma=25$ used to sharpen the image.}
 	\label{fig:spread_func}	
 \end{figure}

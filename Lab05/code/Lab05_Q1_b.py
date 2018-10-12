@@ -4,6 +4,12 @@
 Created on Thu Oct 11 14:21:08 2018
 
 @author: Hayden
+
+Program which imports DOW closing value data from the dow.txt file
+and plots it, and then takes the fourier transform of the data, sets
+the last 90% (and then 98%) of the fourier coefficients to be zero,
+and takes the inverse fourier transform to produce smoothed functions
+representing only the low-frequency components of the data.
 """
 
 #import modules
