@@ -18,7 +18,7 @@ def Gaussian(x,y,sigma):
     return np.exp(-(x**2 + y**2)/(2.0*sigma**2))
 
 #read in blurred data file
-source_file = "../data/blur.txt"
+source_file = "blur.txt"
 with open(source_file) as file:
     data = np.array([[float(digit) for digit in line.split()] for line in file])
     
@@ -30,7 +30,7 @@ bar.set_label("greyscale")
 plt.title("Blurry image")
 plt.xlabel("x")
 plt.ylabel("y")
-plt.savefig("../images/blurred_image.png", dpi=600)
+plt.savefig("images/blurred_image.png", dpi=600)
 plt.show()
 
 #define variables for spread function computation
@@ -58,7 +58,7 @@ bar.set_label("brightness")
 plt.title("Gaussian point spread function")
 plt.xlabel("x")
 plt.ylabel("y")
-plt.savefig("../images/spread_function.png", dpi=600)
+plt.savefig("images/spread_function.png", dpi=600)
 plt.show()
 
 #fourier transform the data and spread function
@@ -90,5 +90,5 @@ bar.set_label("greyscale")
 plt.title("Deconvolved imgae")
 plt.xlabel("x")
 plt.ylabel("y")
-plt.savefig("../images/deconvolved_image.png", dpi=600)
+plt.savefig("images/deconvolved_image.png", dpi=600)
 plt.show()

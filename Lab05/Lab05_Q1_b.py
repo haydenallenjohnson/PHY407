@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 #part a
 
 #import closing value data from dow.txt
-dow = np.loadtxt('../data/dow.txt')
+dow = np.loadtxt('dow.txt')
 
 #define an array of the days since the start of the data
 days = np.arange(0,len(dow),1)

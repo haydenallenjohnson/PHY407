@@ -13,8 +13,8 @@ import numpy as np
 import pylab as plt
 
 #read in data files
-source_file = "../data/piano.txt"
-source_file_2 = "../data/trumpet.txt"
+source_file = "piano.txt"
+source_file_2 = "trumpet.txt"
 p_data = np.loadtxt(source_file, unpack=True)
 t_data = np.loadtxt(source_file_2, unpack=True)
 
