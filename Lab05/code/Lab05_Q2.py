@@ -75,9 +75,9 @@ sharp_data_fft = np.zeros((J,K), dtype=np.complex_)
 for i in range(J):
     for j in range(K):
         if gauss_fft[i,j] > epsilon:
-            sharp_data_fft[i,j] = data_fft[i,j]/gauss_fft[i,j]
+            sharp_data_fft[i,j] = data_fft[i,j]/gauss_fft[i,j]/J/K
         else:
-            sharp_data_fft[i,j] = data_fft[i,j]
+            sharp_data_fft[i,j] = data_fft[i,j]/J/K
 
 #apply inverse fourier transform to retrieve clear image data
 sharp_data = irfft2(sharp_data_fft)
