@@ -88,8 +88,10 @@ t_freq_res = fft_sample_rate/t_bin_num
 
 #find frequencies of largest peaks
 p_freq = p_freq_res*x[np.argmax(p_fft[:N])]
-t_freq = p_freq_res*x[np.argmax(t_fft[:N])]
+t_freq_max = p_freq_res*x[np.argmax(t_fft[:N])]
+t_freq = p_freq_res*x[np.argmax(t_fft[:2000])]
 
 #print frequencies
-print("\nThe frequency of the piano note is: \n", p_freq)
-print("\nThe frequency of the trumpet note is: \n", t_freq)
+print("\nThe frequency of the piano max is: \n", p_freq)
+print("\nThe frequency of the trumpet first max is: \n", t_freq)
+print("\nThe frequency of the trumpet max is: \n", t_freq_max)

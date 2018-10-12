@@ -119,6 +119,52 @@ The filtering of the data was achieved by taking the Fourier transform of the DO
 \end{figure}
 
 
+\subsection{d) Newman 7.3: Musical Instruments}
+For this question we aim to take waveform data, provided via Newman's Computational Physics site, for two instruments, a piano and a trumpet, and perform a Fourier transform on the data sets to retrieve the initial note played on each instruments. 
+
+\subsubsection{Part a)}
+The data from the piano.txt and trumpet.txt files read into the program and graphed in figure \ref{fig:piano_wave} and \ref{fig:trumpet_wave} respectively to show the waveform corresponding to a note played on each instrument.
+From the waveforms we can see how differently the two instruments operate. When a note is played on a piano the hammer striking the wire causes an initial peak in the waveform and then it dampens out. Alternatively, since a trumpet requires air to be passed through to create a note, we see that on the waveform after the musician begins to play the note the intensity remains near constant until the player stops. 
+A Fourier transform was applied to the waveforms and the magnitudes of the first 10,000 Fourier coefficients are plotted in figures \ref{fig:piano_fft} and \ref{fig:trumpet_fft}. From the Fourier transform of each waveform we see that, as expected based on the shape of their waveforms, the piano note is quite isolated. When a note is struck by the hammer the harmonic notes experience a minimal resonance producing just once major peak on the Fourier transform (fig \ref{fig:piano_fft}). For the trumpet however, the note is produced via waves from the series of tubing and as a result the note is more full and resonants more with the harmonics, which we can see by the several large peaks on its Fourier transform (fig:\ref{fig:trumpet_fft}).  
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/piano_wave.png}
+	\caption{Plot of the waveform for a note played on a piano, sampled at $44.1kHz$, and provide from the piano.txt data file available on the Newman Computational Physics site.}
+	\label{fig:piano_wave}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/trumpet_wave.png}
+	\caption{Plot of the waveform for a note played on a trumpet, sampled at $44.1kHz$, and provide from the trumpet.txt data file available on the Newman Computational Physics site.}
+	\label{fig:trumpet_wave}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/piano_fft.png}
+	\caption{Plot of a Fourier transform of the piano waveform for the first 10,000 coefficients.}
+	\label{fig:piano_fft}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/trumpet_fft.png}
+	\caption{Plot of a Fourier transform of the trumpet waveform for the first 10,000 coefficients.}
+	\label{fig:trumpet_fft}
+\end{figure}
+
+\subsubsection{Part b)}
+Given that the waveforms were recorded at a $44.1kHz$ sampling rate, the sampling rate of the Fourier transformed data is halved to $22.05kHz$. The corresponding frequency per bin was then computed in python using
+
+\begin{equation}
+	\text{freq per bin of fft} = \frac{\text{fft sample rate}}{\text{number of samples of fft}}
+\end{equation}
+
+and getting a value of $0.441$. Using this the coefficient of the largest peaks was then scaled by this frequency per bin to retrieve the frequency of the peaks. The large peak for the piano fft returned a value of $525.672Hz$ and that of the trumpet returned a value of $1044.288Hz$. Since the question mentions that the same musical note was played on both instruments and the piano fft only contains one note it's clear that the peak of the trumpet fft is not the note that was played. Instead taking the first peak we retrieve a value of $521.262Hz$ which matches our result for the piano. Thus the musical note played was $~522Hz$ which is a C note one octave higher than middle C.
+
+
 \section{Newman 7.9: Image Deconvolution}
 The Fourier transform is very useful for filtering out noise from a given data set. Extending this principle to a set of two dimensional data that corresponds to an image, we can perform a deconvolution of the image and output a sharper image. This question does exactly this by computing the Fourier transform of a blurry image and a point spread function, combining the two through the relation $a_{kl} = \frac{b_{kl}}{f_{kl}}$ where $a_{kl}$ is the Fourier transform of the clear image data, $b_{kl}$ is the Fourier transform of the blurry image data, and $f_{kl}$ is the Fourier transform of the point spread function.
 
@@ -133,7 +179,7 @@ Using the blur.txt data file from Newman's Computational Physics site, a greysca
 \end{figure}
 
 \subsection{Part b)}
-The Gaussian point spread function $f(x,y) = exp(-\frac{x^2+y^2}{2\sigma^2}$, periodic in the interval of the original data, was computed for each point of the corresponding blurred image, starting with $(x=0,y=0)$ in the top-left corner. A brightness graph of the spread function is shown in figure \ref{fig:spread_func}
+The Gaussian point spread function $f(x,y) = exp(-\frac{x^2+y^2}{2\sigma^2})$, periodic in the interval of the original data, was computed for each point of the corresponding blurred image, starting with $(x=0,y=0)$ in the top-left corner. A brightness graph of the spread function is shown in figure \ref{fig:spread_func}
 
 \begin{figure}[H]
 	\centering
