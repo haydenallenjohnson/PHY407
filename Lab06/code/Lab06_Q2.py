@@ -30,7 +30,7 @@ def func(A, B, t):
     Dy = vy2
     
     R = (x**2 + y**2)
-    c1 = (64.0 * epsilon * R**(-9) * sigma**(12))/mass
+    c1 = (48.0 * epsilon * R**(-7) * sigma**(12))/mass
     c2 = (-24.0* epsilon * R**(-4) * sigma**(6))/mass
     
     Dvx = (c1 + c2)*x + x1
