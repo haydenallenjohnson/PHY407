@@ -31,7 +31,7 @@ def func(r, t):
     Dx = vx
     Dy = vy
     
-    return np.array([Dx,Dy,Dvx,Dvy], float)
+    return np.array([Dx,Dy,Dvx,Dvy])
 
 #define RK4 method function
 def RK4(h, f, r, t):
@@ -48,7 +48,7 @@ N = 1000
 h = (b-a)/N
 
 #initial conditions & containers
-r = np.array([1.0, 0.0, 0.0, 1.0])
+r = np.array([1.0, 0.0, 0.0, 1.0]) #[x,y,vx,vy]
 solution = []
 tpoints = np.arange(a,b,h)
 
