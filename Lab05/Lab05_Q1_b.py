@@ -31,7 +31,7 @@ plt.plot(days, dow)
 plt.title('DOW closing value over time')
 plt.xlabel('Business days since start of the data stream')
 plt.ylabel('DOW closing value (in points)')
-plt.savefig('../images/1b_dow.png')
+plt.savefig('images/1b_dow.png')
 
 #------------------------------------------------------------------
 #part b
@@ -67,7 +67,7 @@ plt.legend(loc='lower left')
 plt.title('DOW closing value with 10% filter')
 plt.xlabel('Business days since start of the data stream')
 plt.ylabel('DOW closing value (in points)')
-plt.savefig('../images/1b_filtered_10.png')
+plt.savefig('images/1b_filtered_10.png')
 
 #------------------------------------------------------------------
 #part e
@@ -94,4 +94,4 @@ plt.legend(loc='lower left')
 plt.title('DOW closing value with 2% filter')
 plt.xlabel('Business days since start of the data stream')
 plt.ylabel('DOW closing value (in points)')
-plt.savefig('../images/1b_filtered_02.png')
+plt.savefig('images/1b_filtered_02.png')
