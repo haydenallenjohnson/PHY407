@@ -51,7 +51,7 @@ def accel(r):
     
     return np.array([-a1,-a2])
 
-#implement verlet method
+#set time step and number of steps for solving ODEs
 dt = 0.01
 steps = 100
 
@@ -66,15 +66,20 @@ vpoints = np.zeros((N,2,len(tpoints)))
 rpoints[:,:,0] = r_initial
 vpoints[:,:,0] = v_initial
 
+#perform initialization of v(0.5h)
 vpoints[:,:,1] = vpoints[:,:,0] + 0.5*dt*accel(rpoints[:,:,0])
 
+#iterate over the number of steps specified
 for i in range(steps-1):
+    #execute equations 8-11 from handout to update position and velocity
     rpoints[:,:,i+1] = rpoints[:,:,i] + dt*vpoints[:,:,2*i+1]
     k = dt*accel(rpoints[:,:,i+1])
     vpoints[:,:,2*i+2] = vpoints[:,:,2*i+1] + 0.5*k
     vpoints[:,:,2*i+3] = vpoints[:,:,2*i+1] + k
-    
+
+
 plt.figure(0)
 #plt.plot(rpoints[0,0,:], rpoints[0,1,:], '.')
 #plt.plot(rpoints[1,0,:], rpoints[1,1,:], '.')
-plt.plot(rpoints[0,0,:])
+plt.plot(rpoints[0,0,:],'.')
+plt.plot(rpoints[1,0,:],'.')

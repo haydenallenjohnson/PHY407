@@ -63,5 +63,24 @@ The system of equations was then solved using the 4th-order Runge-Kutta method w
 	\label{fig:q1_orbit}
 \end{figure}
 
+\section{Molecular Dynamics Simulation Part 1}
+
+\subsection{Part b)}
+
+We seek to write psuedocode, and then an actual program, to compute the trajectories of two particles interacting via the Lennard-Jones potential, and produce plots of the trajectories, for several different sets of initial conditions.
+
+\subsubsection{Pseudocode}
+
+\begin{enumerate}
+	\item Define a function to compute the acceleration of each particle as a function of their positions
+	\begin{enumerate}[label*=\arabic*]
+		\item Compute the x and y distance between the particles
+		\item Compute the square of the distance between the two particles
+		\item Compute the scalar value of the force acting between the two particles (found by differentiating eq. 12 from the handout with respect to $r$)
+		\item Compute the value of the x and y accelerations on each particle
+	\end{enumerate}
+	\item Input initial positions and velocities of particles
+	\item 
+\end{enumerate}
 
 \end{document}
