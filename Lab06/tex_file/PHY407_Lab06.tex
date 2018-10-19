@@ -144,6 +144,22 @@ The plots produced for the trajectories of both particles in the case of all thr
 
 \section{Molecular Dynamics Simulation Part 2}
 
+\subsection{Part c)}
+For this section we desire to modify the results of part b by implementing boundary conditions as defined in the lab manual. To start we added the boundary of $0<x<4$ and $0<y<4$ in such a manner that whenever a particle's component fell outside of these limits the particle would be modulated such that it would reenter the frame from the opposite side. The resulting trajectories are plotted in figure \ref{fig:q3_bdry}. We then attempted to implement the second condition that imposed outside forces on our frame. This condition required us to emulate the particles 8 times in the tiles surrounding our frame and then compute and add the forces of the particles of surrounding tiles to the particles in our center frame. Unfortunately the we were not able to properly implement the second condition fully and got several errors when attempting to do so. We managed to plot the trajectories for the first couple of steps with outside forces, shown in figure \ref{fig:q3_bdry_2}. From this subset we cannot fully describe the paths of the particles but we can infer that now all the particles are effected in such a way that the trajectories behave in a noise manner opposed to figure \ref{fig:q3_bdry} where the corner particles have straight trajectories. In comparison to part b we see that since the particles are confine their paths are more noisey.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/bdry.png}
+	\caption{Plot of trajectories for sixteen particles initially spaced out equally, for 1000 steps with a time step of 0.01 after applying wrap-around boundary conditions.}
+	\label{fig:q3_bdry}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/bdry_2.png}
+	\caption{Plot of trajectories for sixteen particles initially spaced out equally, for 1000 steps with a time step of 0.01 after attempting to apply forces from surrounding particles.}
+	\label{fig:q3_bdry_2}
+\end{figure}
 
 
 \end{document}
