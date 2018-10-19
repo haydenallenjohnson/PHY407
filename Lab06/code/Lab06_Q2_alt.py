@@ -19,8 +19,12 @@ m = 1.0
 N = 2
 
 #input initial positions and velocities
-r1 = np.array([4.0,4.0])
-r2 = np.array([5.2,4.0])
+#r1 = np.array([4.5,4.0])
+#r2 = np.array([5.2,4.0])
+
+r1 = np.array([2.0,3.0])
+r2 = np.array([3.5,4.4])
+
 r_initial = np.array([r1,r2])
 
 v1 = np.array([0.0,0.0])
@@ -56,11 +60,11 @@ dt = 0.01
 steps = 100
 
 #create array of time points
-tpoints = np.arange(0,dt*(steps),0.5*dt)
+tpoints = np.arange(0,dt*(steps),dt)
 
 #create 2d arrays to store position and velocity values for each particle
 rpoints = np.zeros((N,2,steps))
-vpoints = np.zeros((N,2,len(tpoints)))
+vpoints = np.zeros((N,2,2*steps))
 
 #initialize arays with initial values of position and velocity
 rpoints[:,:,0] = r_initial
@@ -79,7 +83,23 @@ for i in range(steps-1):
 
 
 plt.figure(0)
-#plt.plot(rpoints[0,0,:], rpoints[0,1,:], '.')
-#plt.plot(rpoints[1,0,:], rpoints[1,1,:], '.')
-plt.plot(rpoints[0,0,:],'.')
-plt.plot(rpoints[1,0,:],'.')
+plt.plot(rpoints[0,0,:], rpoints[0,1,:], '.', label='particle 1')
+plt.plot(rpoints[1,0,:], rpoints[1,1,:], '.', label='particle 2')
+plt.grid()
+plt.title('Trajectories of two interacting particles')
+plt.xlabel('x position')
+plt.ylabel('y position')
+plt.legend(loc='lower right')
+plt.savefig('../images/q2_iii_traj.png')
+
+
+plt.figure(1)
+plt.plot(tpoints, rpoints[0,0,:], '.', label='particle 1')
+plt.plot(tpoints, rpoints[1,0,:], '.', label='particle 2')
+plt.grid()
+plt.title('x position of two interacting particles over time')
+plt.xlabel('time')
+plt.ylabel('x position')
+plt.legend(loc='center right')
+plt.savefig('../images/q2_iii_xpos.png')
+

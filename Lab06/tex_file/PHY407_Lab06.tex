@@ -80,7 +80,64 @@ We seek to write psuedocode, and then an actual program, to compute the trajecto
 		\item Compute the value of the x and y accelerations on each particle
 	\end{enumerate}
 	\item Input initial positions and velocities of particles
-	\item 
+	\item Define timestep and number of steps
+	\item Create empty arrays to store position and velocity values at each step; note that the velocity array must be twice as long as the position array, and the data at index $i$ in the position array will correspond to data at index $2i$ in the velocity array
+	\item Input initial position and velocity values into first element (along the time axis) of the arrays storing position and velocity
+	\item Initialize the velocity values at $t=0.5*h$
+	\item Iterate over the length of the position array (index $i$)
+	\begin{enumerate}[label*=\arabic*]
+		\item Calculate position $i+1$ using eq. 8 from handout
+		\item Calculate $\vec{k}$ using eq. 9 from handout and the acceleration function defined earlier
+		\item Calculate velocity $2(i+1)$ using eq. 10 from handout
+		\item Calculate valocity $2(i+1)+1$ using eq. 11 from handout
+	\end{enumerate}
+	\item Plot trajectories of the particles
 \end{enumerate}
+
+\subsubsection{Plots}
+
+The plots produced for the trajectories of both particles in the case of all three different sets of initial conditions are displayed in figures \ref{fig:q2_i_traj}, \ref{fig:q2_ii_traj} and \ref{fig:q2_iii_traj}. Because it is difficult to tell the direction of motion simply from the trajectory plots, we have also plotted the x position of the particles as a function of time, in figures \ref{fig:q2_i_xpos}, \ref{fig:q2_ii_xpos} and \ref{fig:q2_iii_xpos}. From figure \ref{fig:q2_i_xpos} it is clear that the first initial condition results in the particles oscillating back and forth towards and away from each other, moving gently back and forth between the regimes of attraction at farther distances and repulsion at short distances. Figure \ref{fig:q2_ii_xpos} makes it clear that for the second set of initial conditions, the particles start close enough together to repel each other quite strongly and then simply fly away from each other, evidently overcoming the attractive force felt at farther distances. In the third set of initial conditions, we see from figure \ref{fig:q2_iii_xpos} that the particles slowly start to move towards each other, as a result of the attractive force at large distances.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_i_traj.png}
+	\caption{Plot of trajectories with initial conditions $\vec{r_1}=(4,4)$, $\vec{r_2}=(5.4,4)$}
+	\label{fig:q2_i_traj}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_i_xpos.png}
+	\caption{Plot of x positions over time with initial conditions $\vec{r_1}=(4,4)$, $\vec{r_2}=(5.4,4)$}
+	\label{fig:q2_i_xpos}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_ii_traj.png}
+	\caption{Plot of trajectories with initial conditions $\vec{r_1}=(4.5,4)$, $\vec{r_2}=(5.4,4)$}
+	\label{fig:q2_ii_traj}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_ii_xpos.png}
+	\caption{Plot of x positions over time with initial conditions $\vec{r_1}=(4.5,4)$, $\vec{r_2}=(5.4,4)$}
+	\label{fig:q2_ii_xpos}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_iii_traj.png}
+	\caption{Plot of trajectories with initial conditions $\vec{r_1}=(2,3)$, $\vec{r_2}=(3.5,4.4)$}
+	\label{fig:q2_iii_traj}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_iii_xpos.png}
+	\caption{Plot of x positions over time with initial conditions $\vec{r_1}=(2,3)$, $\vec{r_2}=(3.5,4.4)$}
+	\label{fig:q2_iii_xpos}
+\end{figure}
 
 \end{document}
