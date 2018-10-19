@@ -39,15 +39,17 @@ r_initial[:,1] = y_initial
 
 v_initial = np.zeros((N,2))
 
-#define function to compute acceleration of N particles due to interactions
+#define function to compute acceleration and the total energy of N particles 
+#due to interactions
 def accel(r):
     
     # r = [r1, r2, ... rN]
     # ri = [xi,yi]
 
-    #create empty array to store accelerations
+    #create empty array to store accelerations 
     a = np.zeros(r.shape)
 
+    #iterate over particles i and j<i
     for i in range(len(r)):
         for j in range(i):
             
@@ -57,7 +59,7 @@ def accel(r):
     
             #compute d^2
             d_sq = x*x + y*y
-    
+                
             #compute the value of the force
             force = 0.5*epsilon * (48*(sigma**12)*d_sq**(-7) - 24*(sigma**6)*d_sq**(-4))
 
@@ -69,35 +71,76 @@ def accel(r):
             #add acceleration values to acceleration array
             a[i] += a_current
             a[j] += -a_current
-            
+    
     return a
 
+#define function to compute the energy of the system
+def energy(m, r, v):
+    
+    #initialize value of the total energy
+    energy = 0
+
+    #iterate over particles i and j<i
+    for i in range(len(r)):
+        for j in range(i):
+
+            #compute difference in positions
+            x = r[i,0] - r[j,0]
+            y = r[i,1] - r[j,1]
+    
+            #compute d^2
+            d_sq = x*x + y*y
+
+            #add the potential from the pair of particles to the total
+            e = 4*epsilon * ((sigma**12)*d_sq**(-6) - (sigma**6)*d_sq**(-3))
+            energy += e
+            
+        #compute the kinetic energy of each particle
+        v_sq = v[i,0]*v[i,0] + v[i,1]*v[i,1]
+        
+        #add the kinetic energy of the particle to the total energy
+        energy += 0.5*m*v_sq
+
+    return energy
+    
 #set time step and number of steps for solving ODEs
 dt = 0.01
-steps = 100
+steps = 1000
 
 #create array of time points
 tpoints = np.arange(0,dt*(steps),dt)
 
-#create 2d arrays to store position and velocity values for each particle
+#create 2d arrays to store position, velocity, and energy values for each particle
 rpoints = np.zeros((N,2,steps))
 vpoints = np.zeros((N,2,2*steps))
+epoints = np.zeros(steps)
 
-#initialize arays with initial values of position and velocity
+#initialize arays with initial values of position, velocity, and energy
 rpoints[:,:,0] = r_initial
 vpoints[:,:,0] = v_initial
+epoints[0] = energy(m, rpoints[:,:,0], vpoints[:,:,0])
 
 #perform initialization of v(0.5h)
 vpoints[:,:,1] = vpoints[:,:,0] + 0.5*dt*accel(rpoints[:,:,0])
 
 #iterate over the number of steps specified
 for i in range(steps-1):
+        
     #execute equations 8-11 from handout to update position and velocity
     rpoints[:,:,i+1] = rpoints[:,:,i] + dt*vpoints[:,:,2*i+1]
     k = dt*accel(rpoints[:,:,i+1])
     vpoints[:,:,2*i+2] = vpoints[:,:,2*i+1] + 0.5*k
     vpoints[:,:,2*i+3] = vpoints[:,:,2*i+1] + k
+    
+    #calculate the energy at i+1
+    epoints[i+1] = energy(m, rpoints[:,:,i+1], vpoints[:,:,2*i+2])
 
+#plot 
 plt.figure(0)
 for i in range(N):
     plt.plot(rpoints[i,0,:],rpoints[i,1,:])
+
+plt.savefig('../images/q3_a.png')
+
+plt.figure(1)
+plt.plot(tpoints, epoints)
