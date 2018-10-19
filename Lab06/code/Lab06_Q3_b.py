@@ -16,7 +16,28 @@ epsilon = 1.0
 m = 1.0
 
 #specify number of interacting particles
-N = 2
+N = 16
+
+#create initial conditions (code adapted from handout)
+Lx = 4.0
+Ly = 4.0
+
+dx = Lx/np.sqrt(N)
+dy = Ly/np.sqrt(N)
+
+x_grid = np.arange(dx/2, Lx, dx)
+y_grid = np.arange(dy/2, Ly, dy)
+
+xx_grid, yy_grid = np.meshgrid(x_grid, y_grid)
+
+x_initial = xx_grid.flatten()
+y_initial = yy_grid.flatten()
+
+r_initial = np.zeros((N,2))
+r_initial[:,0] = x_initial
+r_initial[:,1] = y_initial
+
+v_initial = np.zeros((N,2))
 
 #define function to compute acceleration of N particles due to interactions
 def accel(r):
@@ -76,3 +97,7 @@ for i in range(steps-1):
     k = dt*accel(rpoints[:,:,i+1])
     vpoints[:,:,2*i+2] = vpoints[:,:,2*i+1] + 0.5*k
     vpoints[:,:,2*i+3] = vpoints[:,:,2*i+1] + k
+
+plt.figure(0)
+for i in range(N):
+    plt.plot(rpoints[i,0,:],rpoints[i,1,:])
