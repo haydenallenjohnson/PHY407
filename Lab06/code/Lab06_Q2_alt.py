@@ -103,3 +103,12 @@ plt.ylabel('x position')
 plt.legend(loc='center right')
 plt.savefig('../images/q2_iii_xpos.png')
 
+
+x = np.arange(0.95,3,0.01)
+y = 4*epsilon * (((sigma/x)**12) - ((sigma/x)**6))
+plt.figure(2)
+plt.plot(x,y)
+plt.title('Shape of the Lennard-Jones potential')
+plt.xlabel('r')
+plt.ylabel('V(r)')
+plt.savefig('../images/q2_c.png')

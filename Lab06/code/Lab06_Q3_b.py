@@ -4,6 +4,12 @@
 Created on Fri Oct 19 01:00:59 2018
 
 @author: Hayden
+
+Program which sets a grid of initial conditions for N=16 particles, and sets
+initial velocity as zero, and then uses the verlet method to time step forward,
+calculating the force and thus acceleration of every particle at each time step
+and recodrding these value to plot them. The value of the total system energy
+is also computed and stored at each step, to be plotted.
 """
 
 #import modules
@@ -33,6 +39,7 @@ xx_grid, yy_grid = np.meshgrid(x_grid, y_grid)
 x_initial = xx_grid.flatten()
 y_initial = yy_grid.flatten()
 
+#set initial values of arrays to be initial conditions
 r_initial = np.zeros((N,2))
 r_initial[:,0] = x_initial
 r_initial[:,1] = y_initial
@@ -92,7 +99,7 @@ def energy(m, r, v):
             d_sq = x*x + y*y
 
             #add the potential from the pair of particles to the total
-            e = 4*epsilon * ((sigma**12)*d_sq**(-6) - (sigma**6)*d_sq**(-3))
+            e = 2*epsilon * ((sigma**12)*d_sq**(-6) - (sigma**6)*d_sq**(-3))
             energy += e
             
         #compute the kinetic energy of each particle
@@ -135,12 +142,19 @@ for i in range(steps-1):
     #calculate the energy at i+1
     epoints[i+1] = energy(m, rpoints[:,:,i+1], vpoints[:,:,2*i+2])
 
-#plot 
+#plot  graph of trajectories
 plt.figure(0)
 for i in range(N):
     plt.plot(rpoints[i,0,:],rpoints[i,1,:])
-
+plt.title('Plot of particle trajectories')
+plt.xlabel('x position')
+plt.ylabel('y position')
+plt.grid()
 plt.savefig('../images/q3_a.png')
 
 plt.figure(1)
 plt.plot(tpoints, epoints)
+plt.title('Total system energy over time')
+plt.xlabel('time')
+plt.ylabel('energy')
+plt.savefig('../images/q3_b.png')
