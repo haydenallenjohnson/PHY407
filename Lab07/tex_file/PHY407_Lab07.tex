@@ -11,18 +11,67 @@
 
 \geometry{left=25mm, top=25mm, right=25mm, bottom=25mm}
 
-\title{PHY407 Lab 5}
+\title{PHY407 Lab 7}
 \author{Pierino Zindel (1002429703) and Hayden Johnson (1002103537)}
-\date{October 12, 2018}
+\date{October 26, 2018}
 
 \begin{document}
 
 \maketitle
 
-\noindent \textbf{Distribution of work:}
+\noindent \textbf{Distribution of work:} Question 1 was completed by Pierino. Question 2 was completed by Hayden.
 
 \section{Return of the Space Garbage}
 
 \section{The Hydrogen Atom}
+
+\subsection{Part b)}
+
+We seek to use our program to compute the energies of the ground state and the first excited state (for $l=0$ and $l=1$), and observe the effects of changing various parameters on the accuracy of the computation.
+
+The computed values of the energy for the first two excited states, along with the theoretical values, are displayed in table \ref{tab:2b_i}. These values were computed using the suggested parameter values of $h=0.002a$ and $r_\infty=20a$ (where $a$ is the Bohr radius), and we can see that the agreement with the theoretical values is quite good for $n=2, l=1$, is okay for $n=2, l=0$ and $n=1, l=0$.
+
+\begin{table}[H]
+	\centering
+	\caption{Numerically calculated energy values of the ground state and first excited state of the hydrogen atom, along with the theoretical values. Program used suggested parameter values of $h=0.002a$ and $r_\infty=20a$.}
+	\label{tab:2b_i}
+	\begin{tabular}{c|c|c|c}
+		$n$ & $l$ & Calculated $E$ (eV)  & Literature $E$ (eV) \\
+		\hline
+		1 & 0 & -13.5004889817 & -13.605693009 \\
+		2 & 0 & -3.3878669497 & -3.40142325225 \\
+		2 & 1 & -3.40127671989 & -3.40142325225 \\
+	\end{tabular}
+\end{table}
+
+In table \ref{tab:2b_ii} we display the calculated values of the energy for the first three states for three different values of $r_\infty$ with fixed step size $h=0.002a$. As can be seen from the table, increasing the value of $r_\infty$ improves the accuracy of the solution in all cases, although the extent to which it does this depends on the particular energy level and angular momentum value, and in some cases (i.e. $n=1, l=0$ the observed improvements were negligible.
+
+\begin{table}[H]
+	\centering
+	\caption{Numerically calculated energy values of the ground state and first excited state of the hydrogen atom, along with the theoretical values, for different values of $r_\infty$ with $h=0.002a$.}
+	\label{tab:2b_ii}
+	\begin{tabular}{c|c|c|c|c|c}
+		$n$ & $l$ & $r_\infty=10a$ &  $r_\infty=20a$ & $r_\infty=40a$ & Literature $E$ (eV) \\
+		\hline
+		1 & 0 & -13.5004703237 & -13.5004889817 & -13.5004917637 & -13.605693009 \\
+		2 & 0 & -3.05116418764 & -3.3878669497 & -3.38822466074 &  -3.40142325225 \\
+		2 & 1 & -3.23433299007 & -3.40127671989 & -3.40142286517 & -3.40142325225 \\
+	\end{tabular}
+\end{table}
+
+In table \ref{tab:2b_iii} we display the calculated values of the energy for the first three states for three different values of $h$ with fixed $r_\infty=20a$. As can be seen from the table, the accuracy of the calculations invariably increases with a smaller step size, and this improvement seems to be better than that for an increase in the value of $r_\infty$, although it is difficult to compare these two things given that the size of the variations tested is different, and itself difficult to compare. 
+
+\begin{table}[H]
+	\centering
+	\caption{Numerically calculated energy values of the ground state and first excited state of the hydrogen atom, along with the theoretical values, for different values of $h$ with $r_\infty=20a$.}
+	\label{tab:2b_iii}
+	\begin{tabular}{c|c|c|c|c|c}
+		$n$ & $l$ & $h = 0.02a$ & $h = 0.002a$ & $h = 0.0002a$ & Literature $E$ (eV) \\
+		\hline
+		1 & 0 & -12.7092157518 & -13.5004889817 & -13.5949027472 & -13.605693009 \\
+		2 & 0 & -3.28576534849 & -3.3878669497 & -3.39972201792 & -3.40142325225 \\
+		2 & 1 & -3.40126355429 & -3.40127671989 & -3.40127673348 & -3.40142325225 \\
+	\end{tabular}
+\end{table}
 
 \end{document}

@@ -30,11 +30,11 @@ eps0 = pc.epsilon_0
 pi = np.pi
 
 #set n and l
-n = 1
-l = 0
+n = 2
+l = 1
 
 #set step size and max r
-h = 0.0002*a
+h = 0.02*a
 r_inf = 20*a
 
 # Potential function
@@ -69,8 +69,9 @@ E2 = -13*e/n**2
 R2 = solve(E1)
 
 target = e/1000
-while abs(E1-E2)>target:
+while abs(E1-E2) > target:
     R1,R2 = R2,solve(E2)
     E1,E2 = E2,E2-R2*(E2-E1)/(R2-R1)
-
-print("E =",E2/e,"eV")
+    
+print("E_calc =",E2/e,"eV")
+print('E_theory =',-E0/n**2,'eV')
