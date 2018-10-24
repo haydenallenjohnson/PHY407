@@ -32,10 +32,10 @@ We implement a variable time step by setting our initial step size to be $h=0.01
 \end{equation}
 with 
 \begin{equation}
-	epsilon_i = \frac{(i_1-i_2)}{30}
+	\epsilon_i = \frac{(i_1-i_2)}{30}
 \end{equation}
 for $i=x,y$.
-The step size $h$ is then updated via $h' = h*\Rho^{1/4}$ and if $\rho$ is determined to be within our desired threshold the position values are recorded and we repeat the computations at time $t+2h$. If \rho is outside of the threshold we use recalculate the positions of two steps and one double step for the updated $h$ value and again update $\rho$ and $h$ to determine if the error is small enough.
+The step size $h$ is then updated via $h\prime = h\rho^{1/4}$ and if $\rho$ is determined to be within our desired threshold the position values are recorded and we repeat the computations at time $t+2h$. If $\rho$ is outside of the threshold we use recalculate the positions of two steps and one double step for the updated $h$ value and again update $\rho$ and $h$ to determine if the error is small enough.
 
 This is repeated for the desired number of steps $N=1000$ and plotted overlying of the results we got in Lab 06. The plot is shown in figure \ref{fig:q1_a} and from it we can see the effects of the adaptive time step based on the spacing of the dots. We can intuit that based on Kepler's laws the ball bearing will be traveling faster at perihelion than at aphelion. Thus the changes in position for a given time frame will be greater close to the rod than further away from it. As a result our adaptive time step program uses a greater number of smaller magnitude time steps when the orbit takes the ball bearing closer to the rod and a lower number of greater magnitude time steps when the orbit bring the ball far from the rod. Comparing this to the fixed time step solution underneath we can also see that the adaptive step program is more efficient and is capable of computing a larger time range using the same number of steps. 
 
