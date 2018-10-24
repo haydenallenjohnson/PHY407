@@ -69,6 +69,24 @@ The system of equations was then solved using the 4th-order Runge-Kutta method w
 
 We seek to write psuedocode, and then an actual program, to compute the trajectories of two particles interacting via the Lennard-Jones potential, and produce plots of the trajectories, for several different sets of initial conditions.
 
+\subsubsection{Calculations}
+
+Given the Lennard-Jones potential:
+\begin{equation*}
+	V(r) = 4\varepsilon\left[\left(\frac{\sigma}{r}\right)^{12} - \left(\frac{\sigma}{r}\right)^6\right]
+\end{equation*}
+We know that the potential per particle is half of this. The force acting on a particle due to its interactions with another particle is then given by the negative derivative of $V/2$ with respect to $r$:
+\begin{align*}
+	F &= -\frac{1}{2}\frac{\partial V}{\partial r} \\
+	F &= -2\varepsilon \left[ 12\frac{\sigma^{12}}{r^{13}} - 6\frac{\sigma^{6}}{r^{7}} \right]
+\end{align*}
+And then the x and y components of the force are then obtained by:
+\begin{align*}
+	F_x &= F\frac{x}{r} \\
+	F_y &= F\frac{y}{r}
+\end{align*}
+Where $x$ and $y$ are the components of the separation $\vec{r}$ along those axes. 
+
 \subsubsection{Pseudocode}
 
 \begin{enumerate}
@@ -141,6 +159,78 @@ The plots produced for the trajectories of both particles in the case of all thr
 \end{figure}
 
 \subsection{Part c)}
+
+We want to explain which initial condition in 2b results in periodic motion, and why this should be the case.
+
+As can be seen most clearly from figure \ref{fig:q2_i_xpos}, the first set of initial conditions leads to periodic motion. If we consider the shape of the potential as a function of $r$, as shown in figure \ref{fig:q2_c}, we can see why this should be the case. If a particle has a total energy (given by potential plus kinetic energy) that is less than zero, then it will be trapped in the well in the potential, and undergo periodic motion back and forth between its turning points. We also can see that for the second initial conditions, the particles must have energy greater than zero and start to the left of the well, and fly outwards and escape, whereas in the third case they must have energy less than zero and get pulled gradually together, and they would eventually oscillate with a long period if we ran the simulation for long enough.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_c.png}
+	\caption{Shape of the Lennard-Jones potential.}
+	\label{fig:q2_c}
+\end{figure}
+
+\section{Molecular Dynamics Simulation Part 2}
+
+\subsection{Part a)}
+
+We seek to adapt our program from question 2 in order to consider an arbitrary number of particles.
+
+\subsubsection{Pseudocode}
+
+\begin{enumerate}
+	\item Create initial conditions (code adapted from handout)
+	\item Create arrays containing initial conditions
+	\item Define a function to compute the acceleration of each particle as a function of their positions
+	\begin{enumerate}[label*=\arabic*]
+		\item Iterate over each pair of particles
+		\begin{enumerate}[label*=\arabic*]
+			\item Compute the x and y distance between the particles
+			\item Compute the square of the distance between the two particles
+			\item Compute the scalar value of the force acting between the two particles (found by differentiating eq. 12 from the handout with respect to $r$)
+			\item Compute the value of the x and y accelerations on each particle
+		\end{enumerate}
+		\item Output an array containing the acceleration of each particle
+	\end{enumerate}
+	\item Define a function to compute the total energy of the system
+	\begin{enumerate}[label*=\arabic*]
+	\item Initialize value of energy to be zero
+		\item Iterate over each pair of particles
+		\begin{enumerate}[label*=\arabic*]
+			\item Compute the x and y distance between the particles
+			\item Compute the square of the distance between the two particles
+			\item Compute the value of the potential energy of the pair of particles and add it to the total energy
+		\end{enumerate}
+		\item Compute the kinetic energy of each particle and add it to the total energy
+		\item Output the total energy
+	\end{enumerate}
+	\item Set time step and number of steps
+	\item Create arrays to store values velocity, position, and energy, and set their initial values
+	\item Iterate over number of steps and update position and velocity using verlet method, and calculate the energy
+	\item Plot the trajectories and the total energy
+\end{enumerate}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q3_a.png}
+	\caption{Plot of the trajectories of all 16 particles (each shown in a different colour) starting fro the initial conditions given.}
+	\label{fig:q3_a}
+\end{figure}
+
+\subsection{Part b)}
+
+We seek to add to the code from part a) the functionality to compute the total energy of the system at each time step and then plot the energy as a function of time.
+
+At each stage in the loop, we computed the kinetic energy of each of the particles, and the potential energy of each pair of particles, and then added these together to get the total energy. This is plotted in figure \ref{fig:q3_b}, from which it can be seen that the total energy is conserved to good approximation, as we should expect it to be.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q3_b.png}
+	\caption{Plot of total system energy, for all particles, as a function of time.}
+	\label{fig:q3_b}
+\end{figure}
 
 \section{Molecular Dynamics Simulation Part 2}
 
