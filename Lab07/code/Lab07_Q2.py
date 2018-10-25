@@ -4,6 +4,11 @@
 Created on Wed Oct 24 10:03:24 2018
 
 @author: Hayden
+
+Program which uses the shooting and RK4 methods to find the energy eigenvalue
+and corresponding eigenfunction for the radial part of the Schrodinger
+equation with the specified values of n and l, and plots these eigenfunctions 
+along with their analytic counterparts on the same plot
 """
 
 #import modules
@@ -51,7 +56,7 @@ n = 2
 l = 1
 
 #set step size and max r
-h = 0.002*a
+h = 0.0002*a
 r_inf = 20*a
 
 #define array of points r
@@ -98,6 +103,9 @@ while abs(E1-E2) > target:
     R1, R2 = R2, wave(E2)[-1,0]
     E1, E2 = E2, E2-R2*(E2-E1)/(R2-R1)
     
+print('Calculated: ',E2/e)
+print('Theory: ',-E0/n**2)
+
 #compute the wave function for the calculated energy
 psi = wave(E2)[:,0]
 
@@ -112,7 +120,7 @@ psi_theory = R_theory(r, n, l)
 norm_theory = simpsons(r,abs(psi_theory)**2)
 psi_theory_normal = psi_theory/np.sqrt(norm_theory)
 
-#plot
+#plot normalized wavefunctions (calculated and theoretical)
 plt.figure(0)
 plt.plot(r, psi_normal, label='Computed')
 plt.plot(r, psi_theory_normal, '--', label='Theoretical')
