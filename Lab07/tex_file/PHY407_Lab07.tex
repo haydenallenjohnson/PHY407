@@ -22,45 +22,6 @@
 \noindent \textbf{Distribution of work:} Question 1 was completed by Pierino. Question 2 was completed by Hayden.
 
 \section{Return of the Space Garbage}
-The objective of this question is to take the solution of the orbital trajectories modeled in Lab 06 and implement an adaptive time step to use with 4th order Runge-Kutta to compare to the previous results.
-
-\subsection{Part a)}
-We implement a variable time step by setting our initial step size to be $h=0.01s$ and error per step size to be $\delta=10^{-6}$. We then proceed by computing the position values after two steps of size $h$ and the position values after one step of size $2h$. The position values are then used to compute the $\rho$ value using the equation
-
-\begin{equation}
-	\rho = \frac{h\delta}{sqrt(\epsilon_x^2 + \epsilon_y^2)}
-\end{equation}
-with 
-\begin{equation}
-	\epsilon_i = \frac{(i_1-i_2)}{30}
-\end{equation}
-for $i=x,y$.
-The step size $h$ is then updated via $h\prime = h\rho^{1/4}$ and if $\rho$ is determined to be within our desired threshold the position values are recorded and we repeat the computations at time $t+2h$. If $\rho$ is outside of the threshold we use recalculate the positions of two steps and one double step for the updated $h$ value and again update $\rho$ and $h$ to determine if the error is small enough.
-
-This is repeated for the desired number of steps $N=1000$ and plotted overlying of the results we got in Lab 06. The plot is shown in figure \ref{fig:q1_a} and from it we can see the effects of the adaptive time step based on the spacing of the dots. We can intuit that based on Kepler's laws the ball bearing will be traveling faster at perihelion than at aphelion. Thus the changes in position for a given time frame will be greater close to the rod than further away from it. As a result our adaptive time step program uses a greater number of smaller magnitude time steps when the orbit takes the ball bearing closer to the rod and a lower number of greater magnitude time steps when the orbit bring the ball far from the rod. Comparing this to the fixed time step solution underneath we can also see that the adaptive step program is more efficient and is capable of computing a larger time range using the same number of steps. 
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{../images/q1_orbit.png}
-	\caption{Orbit of a ball bearing in space rotating around a rod in a plane perpendicular to the axis of the rod. The black dots are the points computed using an adaptive time step, overlying the curve corresponding to the solution computed using a fixed time step.}
-	\label{fig:q1_a}
-\end{figure}
-
-\subsection{Part b)}
-We now wish to compare the computation times of the fixed step method with the adaptive step method. Running the fixed step method with a step size of $h=0.01s$ for $N=1000$ steps yields a total computation time of $t=0.06249s$. The same fixed step method with a step size of $h=0.001s$ for $N=10,000$ steps yields a total computation time of $t=0.5404s$.
-Comparatively, the adaptive step method with an initial step size of $h=0.01s$ for $N=1000$ steps yields a total computation time of $t=0.1562s$ while the adaptive step method with an initial step size of $h=0.001s$ for $N=10,000$ steps yields a total computation time of $t=1.523s$.
-
-From this we can see that the using the same number of steps the adaptive step method takes at least 2 to 3 times longer. We can estimate that the reasons for this is due to the adaptive step method additionally computing the solution at every other step using a double step. The adaptive step also runs the issue of computing the solutions for a given step and repeating the computation for a smaller step if the error is unsatisfactory. 
-
-\subsection{Part c)}
-The step size at each point is plotted over the total time in figure \ref{fig:q1_c}. Ignoring the first quarter second or so (for stability reasons mentioned in the lab manual) we can see that the cyclic pattern of the step sizes lines up with the cyclic pattern of the orbit of the ball. As previously mentioned, when the ball is close to the rod it is traveling faster requiring are larger number of small step sizes and when the ball is far from the rod it is traveling slower requiring less number of larger step sizes. Thus we can see the 12 valleys on figure \ref{fig:q1_c} of lowest step sizes correspond to the points in the trajectory when the ball is at perihelion with respect to the rod, and the 12 peaks on figure \ref{fig:q1_c} of largest step sizes correspond to the points in the trajectory when the ball is at aphelion with respect to the rod (including the starting position).  
-
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.8\textwidth]{../images/q1_orbit_step.png}
-	\caption{Time step size over time in orbit corresponding to the solution of a ball bearing orbiting a rod in space attained using the 4th order Runge-Kutta method with an adaptive time step.}
-	\label{fig:q1_c}
-\end{figure}
 
 \section{The Hydrogen Atom}
 
