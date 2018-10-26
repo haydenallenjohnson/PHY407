@@ -164,11 +164,14 @@ x = sol[:,0]
 y = sol[:,1]
 
 #plot resulting function
-plt.plot(x, y, 'k.', label='adaptive time steps')
+plt.plot(x, y, '.', color='black', markersize=1.5, label='adaptive step solution')
+plt.grid()
 plt.xlabel("x")
 plt.ylabel("y")
+plt.axis('scaled')
 plt.title("Orbit of ball bearing around rod in space")
 plt.grid()
+plt.legend()
 plt.savefig("../images/q1_orbit.png", dpi=600)
 
 #plot the step size as a function of time
