@@ -52,8 +52,8 @@ def R_theory(x, n, l):
         return (1/(2*np.sqrt(6)*a**1.5))*(x/a)*np.exp(-x/(2*a))
     
 #set n and l
-n = 2
-l = 1
+n = 1
+l = 0
 
 #set step size and max r
 h = 0.0002*a
@@ -76,11 +76,17 @@ def f(val,x,E):
 
 #calculate the wavefunction for a particular energy
 def wave(E):
+    
+    #define enpty array to store values
+    vals = np.empty((len(r),2),float)
+
+    #set initial values of wavefunction and derivative
     R = 0.0
     S = 1.0
-    vals = np.empty((len(r),2),float)
     vals[0] = np.array([R,S])
     
+    #iterate over length of r array and compute the next value from the
+    #previous one by using the differential equation, and using the RK4 method
     for i in range(len(r)-1):
         k1 = h*f(vals[i], r[i], E)
         k2 = h*f(vals[i]+0.5*k1, r[i]+0.5*h, E)
@@ -102,7 +108,8 @@ target = e/1000
 while abs(E1-E2) > target:
     R1, R2 = R2, wave(E2)[-1,0]
     E1, E2 = E2, E2-R2*(E2-E1)/(R2-R1)
-    
+
+#print calculated and theoretical energy values 
 print('Calculated energy: ',E2/e,' eV')
 print('Theoretical energy: ',-E0/n**2,' eV')
 
