@@ -120,7 +120,7 @@ start = time()
 #solve the ode
 for i in steps:
     time_step.append(h)
-    time_step.append(2*h)
+    time_step.append(h)
     timing.append(time_1)
     timing.append(time_1+h)
     #initialize rho
