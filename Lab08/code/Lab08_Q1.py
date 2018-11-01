@@ -4,6 +4,11 @@
 Created on Wed Oct 31 10:09:32 2018
 
 @author: Hayden
+
+Program which uses the Gauss-Seidel method with overrelaxation to solve the
+heat equation in steady-state on a rectangular domain (with a cut-out) given fixed boundary 
+conditions. The program "animates" the solving process by plotting the values
+at each iteration, before eventually plotting the final solution.
 """
 
 import numpy as np
@@ -62,13 +67,11 @@ while delta > target:
     plt.imshow(temp)
     plt.pause(0.01)
     plt.show()
-    
+
 #plot the final values of the temperature
 plt.imshow(temp)
-plt.gray()
 plt.title('Solution of Heat Equation with $\omega$='+str(w))
 plt.xlabel('x position (mm)')
 plt.ylabel('y position (mm)')
 plt.colorbar(label='Temperature ($^\circ$C)')
 plt.savefig('../images/q1_c.png') #b_'+str(w)[0]+'p'+str(w)[2]+'.png')
-
