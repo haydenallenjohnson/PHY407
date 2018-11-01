@@ -69,6 +69,7 @@ while delta > target:
     plt.show()
 
 #plot the final values of the temperature
+plt.figure(0)
 plt.imshow(temp)
 plt.title('Solution of Heat Equation with $\omega$='+str(w))
 plt.xlabel('x position (mm)')
