@@ -67,6 +67,54 @@ Using the coordinate system as it is defined by the axes in figure \ref{fig:1c},
 
 
 \section{FTCS solution of the wave equation}
+For this question we desire to solve the wave equation using the FTCS method. The FTCS equations used for the solution were
+
+\begin{equation}
+	\phi(x, t+h) = \phi(x,t)+h\psi(x,t)
+\end{equation}
+
+\begin{equation}
+	\psi(x, t+h) = \psi(x,t)+h\frac{v^2}{a^2}(\phi(x+a,t)+\phi(x-a,t)-2\phi(x,t))
+\end{equation}
+
+with the initial conditions that $\phi(x)=0$ and 
+
+\begin{equation}
+	\psi(x) = C\frac{x(L-x)}{L^2}exp(-\frac{(x-d)^2}{2\sigma^2})
+\end{equation}
+
+where $L=1.0m$, $d=0.1m$, $C=1.0m/s$, $\sigma=0.3m$. 
+
+The conditions used to get our solution were a step of $h=10^{-6}s$, number of points $N=100$, and spacing $a=L/N$. The solution was plotted from $t=0.0s$ to $t=0.101s$ to observe how the solution using FTCS becomes unstable. The initial solution at a time of $t=2ms$ is shown is figure \ref{fig:q2_2}. From here the FTCS method seems to give us a good stable solution until roughly $t=71ms$ when we can clearly see the instability of the method begin (see figure \ref{fig:q2_71}). Then after another $24ms$ the solution instability grows considerably to significant value where the actual solution becomes distorted, as can be see in figure \ref{fig:q2_95}. And at the end of our running time of $t=101ms$ we can see in figure \ref{fig:q2_101} that the instability of the FTCS method has out grown our initial solution and thus the result that the FTCS method gives us for the wave equation for long enough running time is incomprehensible in terms of the actual solution. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_plot_2.png}
+	\caption{Plot of the piano string displacement at a time of 2ms.}
+	\label{fig:q2_2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_plot_71.png}
+	\caption{Plot of the piano string displacement at a time of 71ms.}
+	\label{fig:q2_71}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_plot_95.png}
+	\caption{Plot of the piano string displacement at a time of 95ms.}
+	\label{fig:q2_95}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_plot_101.png}
+	\caption{Plot of the piano string displacement at a time of 101ms.}
+	\label{fig:q2_101}
+\end{figure}
+
 
 \section{Solving Burger's equation}
 For this part of the lab we desire to solve Burger's equation
@@ -90,7 +138,7 @@ and the subsequent leapfrog method is applied using
 
 The values used in our solution were $\epsilon = 1.0$, $L_x = 2 \pi $, $T_f = 2$, $N_x = integer(\frac{L_x}{\Delta x})$, $N_t = integer(\frac{T_f}{\Delta t})$ with initial condition $u(x, t=0)=\sin(x)$ and boundary condition $u(x=0,t)=0=u(x=L_x,t)$.
 The solution of Burger's equation is plotted for times: $t=0.0,0.5,1.0,1.5$ shown in figure \ref{fig:burgers_even}.
-From our solution we can see that as time progresses there's a shock formation around the mid point $x=Lx/2$, resulting in our initial sine function to become a sawtooth wave function. As time progresses we can see the formation of noise fluctuations approaching the shock ($x=Lx/2$) from both sides which we deemed to be unrealistic features of the solution. These noise fluctuations seem to be due to the method implemented to solve Burger's equation. This point becomes evident when we once again plotted the solution but increased the value of $N_x$ by one, shown in figure \ref{fig:burgers_odd}. This small increase resulted in a magnification of the noise. Furthermore, whenever $N_x$ was altered to be even the resulting solution matched that of figure \ref{fig:burgers_even} and whenever it was alter to be odd the resulting solution matched that of figure \ref{fig:burgers_odd}. Thus the noise was deemed to be due to the leapfrog method and fixed time steps used to solve the equation. Lastly we decreased the step sizes $\delta x$ and $delta t$ by an order of magnitude and observed a dampening of this noise of the method implemented. The damped version of our original solution is shown in figure \ref{fig:burgers_damped}. 
+From our solution we can see that as time progresses there's a shock formation around the mid point $x=Lx/2$, resulting in our initial sine function to become a sawtooth wave function. As time progresses we can see the formation of noise fluctuations approaching the shock ($x=Lx/2$) from both sides which we deemed to be unrealistic features of the solution. These noise fluctuations seem to be due to the method implemented to solve Burger's equation. This point becomes evident when we once again plotted the solution but increased the value of $N_x$ by one, shown in figure \ref{fig:burgers_odd}. This small increase resulted in a magnification of the noise. Furthermore, whenever $N_x$ was altered to be even the resulting solution matched that of figure \ref{fig:burgers_even} and whenever it was alter to be odd the resulting solution matched that of figure \ref{fig:burgers_odd}. Thus the noise was deemed to be due to the leapfrog method and fixed time steps used to solve the equation. Lastly we decreased the step sizes $\Delta x$ and $\Delta t$ by an order of magnitude and observed a dampening of this noise of the method implemented. The damped version of our original solution is shown in figure \ref{fig:burgers_damped}. 
 
 \begin{figure}[H]
 	\centering
