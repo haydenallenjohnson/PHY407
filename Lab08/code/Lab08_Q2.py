@@ -23,7 +23,7 @@ def psi0(x):
     return C*x*(L-x)*np.exp(-(x-d)**2/(2*sigma**2))/L**2
 
 #grid points
-N = 200
+N = 500
 #grid spacing
 a = L/N
 
@@ -35,7 +35,7 @@ phi_step = phi
 
 #loop
 t = 0.0
-t_f = 1.0
+t_f = 50e-3/100
 
 #array of positions corresponding to each loop over time
 traj = [phi]

@@ -1,10 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Nov  1 07:36:40 2018
+Solves Burger's equation using one Euler forward step and subsequent steps
+using the leapfrog method. Plots the solution for various times.
 
-@author: Pierino
+Created on Thu Nov  1 07:36:40 2018
+@author: Pierino Zindel
 """
 
+#import libraries
 import numpy as np
 import pylab as plt
 
@@ -26,19 +29,19 @@ t2 = 0.5
 t3 = 1.0
 t4 = 1.5
 
-#offset for timing
+#offset for plot timing
 delta = 1e-10
 
 #create arrays
-u = np.zeros([Nt, Nx]) #positions for fixed time
-ut = np.empty(Nx, float) #for fixed position
+u = np.zeros([Nt, Nx]) #contains solutions throughout time
+ut = np.empty(Nx, float) #contains solutions for a given time
 
 #initial condition
 #u(x, t=0) = sin(x)
 x = np.linspace(0, Lx, Nx)
 u[0] = np.sin(x)
 
-#boundry condition
+#boundry conditions
 #u(x=0, t) = 0
 #u(x=Lx, t) = 0
 ut[0] = 0
@@ -46,14 +49,12 @@ ut[-1] = 0
 u[:,0] = 0
 u[:,-1] = 0
 
-
 #apply initial step with Euler forward
 u[1] = np.sin(x)*(1 - epsilon*dt*np.cos(x))
 
-#plot for t=0
+#plot initial wave for t=0
 plt.figure
 plt.plot(x, u[0], label='t=0.0')
-
 
 #loop over time, excluding the initial condition
 for j in range(1,Nt-1):
@@ -63,9 +64,10 @@ for j in range(1,Nt-1):
     for i in range(1,Nx-1):
         #formula constant
         beta = epsilon*dt/dx
+        #apply leapfrog step
         u[j+1,i] = u[j-1,i] - beta/2*((u[j,i+1])**2 - (u[j,i-1])**2)
 
-    #plot the function as the given times
+    #plot the function at the given times
     if abs(t-t2) < delta:
         plt.plot(x, u[j], label='t=0.5')
     elif abs(t-t3) < delta:
@@ -74,9 +76,9 @@ for j in range(1,Nt-1):
         plt.plot(x, u[j], label='t=1.5')
         
 #plotting values
-plt.xlabel("x")
-plt.ylabel("u(x,t)")
-plt.title("Burgers")
+plt.xlabel("Position, x")
+plt.ylabel("Displacement, u(x,t)")
+plt.title("Solutions to Burger's equation")
 plt.grid()
 plt.legend()
 plt.savefig("../images/burgers.png", dpi=600)

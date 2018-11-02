@@ -19,7 +19,7 @@
 
 \maketitle
 
-\noindent \textbf{Distribution of work:} Question 1 was completed by Pierino. Question 2 was completed by Hayden.
+\noindent \textbf{Distribution of work:} Question 1 was completed by Hayden. Question 2 and 3 were completed by Pierino.
 
 \section{Temperature Distribution in a Heat Conductor}
 
@@ -66,4 +66,50 @@ Using the coordinate system as it is defined by the axes in figure \ref{fig:1c},
 \end{figure}
 
 
+\section{FTCS solution of the wave equation}
+
+\section{Solving Burger's equation}
+For this part of the lab we desire to solve Burger's equation
+
+\begin{equation}
+	\frac{\partial u}{\partial t} + \epsilon \frac{\partial}{\partial x}(\frac{u^2}{2}) = 0
+\end{equation}
+
+using Euler's method for an initial step forward and then using the leapfrog method.
+Using the notation $u^j_i = u(x_i, t_j)$ where $x_i = i\Delta x$ for $i=0,...,N_x-1$, $\Delta x=0.02$ and $t_j = j\Delta t$ for $j=0,...,N_t-1$, $\Delta t=0.005$, the Euler step is performed using the equation
+
+\begin{equation}
+	u^1_i = u^0_i - \Delta t\epsilon u^0_i\frac{\partial u^0_i}{\partial x}
+\end{equation}
+
+and the subsequent leapfrog method is applied using
+
+\begin{equation}
+	u^{j+1}_i = u^{j-1}_i - \frac{\epsilon\Delta t}{2\Delta x}((u^j_{i+1})^2 - (u^j_{i-1})^2)
+\end{equation}
+
+The values used in our solution were $\epsilon = 1.0$, $L_x = 2 \pi $, $T_f = 2$, $N_x = integer(\frac{L_x}{\Delta x})$, $N_t = integer(\frac{T_f}{\Delta t})$ with initial condition $u(x, t=0)=\sin(x)$ and boundary condition $u(x=0,t)=0=u(x=L_x,t)$.
+The solution of Burger's equation is plotted for times: $t=0.0,0.5,1.0,1.5$ shown in figure \ref{fig:burgers_even}.
+From our solution we can see that as time progresses there's a shock formation around the mid point $x=Lx/2$, resulting in our initial sine function to become a sawtooth wave function. As time progresses we can see the formation of noise fluctuations approaching the shock ($x=Lx/2$) from both sides which we deemed to be unrealistic features of the solution. These noise fluctuations seem to be due to the method implemented to solve Burger's equation. This point becomes evident when we once again plotted the solution but increased the value of $N_x$ by one, shown in figure \ref{fig:burgers_odd}. This small increase resulted in a magnification of the noise. Furthermore, whenever $N_x$ was altered to be even the resulting solution matched that of figure \ref{fig:burgers_even} and whenever it was alter to be odd the resulting solution matched that of figure \ref{fig:burgers_odd}. Thus the noise was deemed to be due to the leapfrog method and fixed time steps used to solve the equation. Lastly we decreased the step sizes $\delta x$ and $delta t$ by an order of magnitude and observed a dampening of this noise of the method implemented. The damped version of our original solution is shown in figure \ref{fig:burgers_damped}. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/burgers.png}
+	\caption{Plot of the solution of Burger's equation for times $t=0.0,0.5,1.0,1.5$ using an even number of points, $N_x=314$, with $\Delta x=0.02$ and $\Delta t=0.005$}
+	\label{fig:burgers_even}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/burgers_odd.png}
+	\caption{Plot of the solution of Burger's equation for times $t=0.0,0.5,1.0,1.5$ using an odd number of points, $N_x=315$, with $\Delta x=0.02$ and $\Delta t=0.005$}
+	\label{fig:burgers_odd}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/burgers_damped.png}
+	\caption{Plot of the solution of Burger's equation for times $t=0.0,0.5,1.0,1.5$ using step sizes that are an order of magnitude smaller $\Delta x=0.0019$ and $\Delta t=0.000476$, with even number of points, $N_x=3298$. The noise in the solution can be seen to dampen out when compared to that of figure \ref{fig:burgers_even}}
+	\label{fig:burgers_damped}
+\end{figure}
 \end{document}
