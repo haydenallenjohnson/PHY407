@@ -23,7 +23,7 @@ def psi0(x):
     return C*x*(L-x)*np.exp(-(x-d)**2/(2*sigma**2))/L**2
 
 #grid points
-N = 100
+N = 200
 #grid spacing
 a = L/N
 
@@ -35,10 +35,15 @@ phi_step = phi
 
 #loop
 t = 0.0
-t_f = 2.0e-2
+t_f = 1.0
 
 #array of positions corresponding to each loop over time
 traj = [phi]
+
+#image
+
+#frame count
+frame = 0
 
 while t < t_f:
     #for i in range(1,N):
@@ -51,7 +56,17 @@ while t < t_f:
     traj.append(phi_step)
     t += h
     
-plt.plot(x,phi, '.')
+    frame += 1
+    if (frame % 50) == 0:
+        frame = 0
+        plt.clf()
+        plt.plot(x, phi)
+        plt.xlim([0,1])
+        plt.ylim([-0.0005, 0.0005])
+        plt.draw()
+        plt.pause(0.01)
+    
+#plt.plot(x, phi)
 plt.xlabel("x")
 plt.ylabel("phi")
 plt.show()
