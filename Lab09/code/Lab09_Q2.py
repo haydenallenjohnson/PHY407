@@ -9,7 +9,6 @@ Created on Wed Nov 14 10:16:44 2018
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-from numpy.linalg import solve
 import scipy.constants as pc
 
 #define path to ffmpeg for animation
@@ -29,7 +28,7 @@ L = 1e-8
 a = L/N
 
 #define timestep and final time
-timesteps = 100
+timesteps = 5000
 h = 1e-18
 t_final = timesteps*h
 
@@ -60,6 +59,12 @@ for i in range(N-1):
             A[i,j] = a2
             B[i,j] = b2
 
+#compute inverse of A
+Ainv = np.linalg.inv(A)
+
+#compute inverse of A dotted with B
+AinvB = np.dot(Ainv, B)
+
 #compute psi at t=0
 psi0 = np.exp(-((x-x0)**2)/(2*sigma*sigma))*np.exp(1j*kappa*x)
 
@@ -74,17 +79,17 @@ wavefunction[0] = psi0
 #iterate over timesteps and compute new value of psi
 for i in range(timesteps-1):
     psi_old = wavefunction[i,1:-1]
-    v = np.dot(B, psi_old)
-    psi_new = solve(A, v)
+    psi_new = np.dot(AinvB, psi_old)
     wavefunction[i+1,1:-1] = psi_new
 
 #create axes for animation
 fig = plt.figure(0)
 
-#specify plots for animation
+#specify plots for animation (at every fifth timestep)
 plots = []
 for i in range(timesteps):
-    plots.append(plt.plot(x, np.real(wavefunction[i]), 'b'))
+    if i%5==0:
+        plots.append(plt.plot(x, np.real(wavefunction[i]), 'b'))
 
 ani = animation.ArtistAnimation(fig, plots, interval=2, blit=True)
 #save the animation
