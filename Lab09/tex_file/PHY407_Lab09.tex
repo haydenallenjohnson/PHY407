@@ -22,6 +22,155 @@
 \noindent \textbf{Distribution of work:} Questions 1 and 3 were completed by Pierino. Question 2 was completed by Hayden.
 
 \section{Solving the wave equation with the spectral method}
+We desire to solve the wave equation 
+\begin{equation}
+	\label{eq:wave}
+	\frac{\partial^2 \phi}{\partial t^2} = v^2 \frac{\partial^2 \phi}{\partial x^2}
+\end{equation}
+similar to Q2 of Lab08, using the spectral method. The initial conditions of our problem are 
+\begin{equation}
+\label{eq:phi_0}
+	\phi (x,t=0) = \phi _0(x)= \sum^{\infty} _{k=1} \widetilde{ \phi } _{0,k} \sin ( \frac{k \pi x}{L})
+\end{equation}
+and 
+\begin{equation}
+\label{eq:psi_0}
+	\frac{\partial \phi(x,t=0)}{\partial t} = \psi_0(x) = \sum^{\infty}_{k=1} \widetilde{\psi}_{0,k} \sin(\frac{k\pi x}{L})
+\end{equation}
+satisfying the boundary condition
+\begin{equation}
+	\phi(x=0,t)=0=\phi(x=L,t)
+\end{equation}
+
+\subsection{Part a)}
+We can confirm that the general solution to our problem in terms of the Fourier series is 
+\begin{equation}
+	\label{eq:general_solution}
+	\phi(x,t)= \sum^{\infty}_{k=1} \sin(\frac{k\pi x}{L}) \left[ \widetilde{\phi}_{0,k} \cos(\omega_k t) + \frac{\widetilde{\psi}_{0,k}}{\omega_k} \sin(\omega_k t) \right]
+\end{equation}
+
+by showing that it satisfies the initial and boundary conditions.
+
+First looking at the boundary conditions we see that when $x=0$ and $x=L$ the term $\sin(k\pi)$ in equation \ref{eq:general_solution} is zero and thus the boundary condition is satisfied.
+
+Next we confirm the initial condition by letting $t=0$ in equation \ref{eq:general_solution} to get 
+\begin{equation}
+\begin{split}
+	\phi(x,t=0)=& \sum^{\infty}_{k=1} \sin(\frac{k\pi x}{L}) \left[\widetilde{\phi}_{0,k} + 0 \right]
+	\\ =& \phi_0(x)
+\end{split}
+\end{equation}
+
+Then taking the partial derivative with respect to time we have
+
+\begin{equation}
+\begin{split}
+	\psi(x,t=0) =& \frac{\partial \phi(x,t=0)}{\partial t}
+	\\ =& \sum^{\infty}_{k=1} \sin(\frac{k\pi x}{L}) \left[-\omega_k \widetilde{\phi}_{0,k} \sin(\omega_k t) + \widetilde{\psi}_{0,k} \cos(\omega_k t) \right]
+	\\ =& \sum^{\infty}_{k=1} \sin(\frac{k\pi x}{L}) \left[0 + \widetilde{\psi}_{0,k} \right]
+	\\ =& \psi_0(x)
+\end{split}
+\end{equation}
+
+and thus the initial conditions are also satisfied by the general solution equation \ref{eq:general_solution}.
+
+Having shown that the solution given is valid we now apply the wave equation to it and derive an expression for the frequency $\omega_k$ in terms of $k$, $L$, and $v$.
+
+Starting with the time derivative component we get
+\begin{equation}
+\begin{split}
+	\frac{\partial^2 \phi}{\partial t^2} =& \sum^{\infty}_{k=1} \sin(\frac{k\pi x}{L}) \left[-\omega_k^2 \widetilde{\phi}_{0,k} \cos(\omega_k t) - \omega_k \widetilde{\psi}_{0,k} \sin(\omega_k t) \right]
+	\\ =& - \omega_k^2 \phi(x,t)
+\end{split}
+\end{equation}
+
+and the $x$ derivative component gives us
+
+\begin{equation}
+\begin{split}
+	\frac{ \partial^2 \phi }{ \partial x^2} =& \sum^{\infty}_{k=1} \left( \frac{k\pi}{L} \right)^2 \sin(\frac{k\pi x}{L}) \left[ \widetilde{\phi}_{0,k} \cos(\omega_k t) + \frac{\widetilde{\psi}_{0,k}}{\omega_k} \sin(\omega_k t) \right]
+	\\ =& - \left( \frac{k \pi}{L} \right)^2 \phi(x,t)
+\end{split}
+\end{equation}
+
+We then combine these into the wave equation to get
+
+\begin{equation}
+\begin{split}
+	\frac{\partial^2 \phi}{\partial t^2} =& v^2 \frac{\partial^2 \phi}{\partial x^2}
+	\\ -\omega_k^2 \phi(x,t) =& - v^2 \left( \frac{k \pi}{L} \right)^2 \phi(x,t)
+	\\ \omega_k =& \frac{k \pi v}{L}
+\end{split}
+\end{equation}
+
+as our relation for $\omega_k$.
+
+\subsection{Part b)}
+Using the same problem as question 2 in Lab08 we have the parameters $v=100$m/s, $L=1$m, $N=100$, with initial conditions $\phi_0(x) = 0$ and 
+
+\begin{equation}
+	\psi_0(x) = C\frac{x(L-x)}{L^2}exp(-\frac{(x-d)^2}{2\sigma^2})
+\end{equation}
+
+where $d=0.1$m, $C=1.0$m/s, $\sigma=0.3$m.
+
+The discrete sine transform from the provided dcst.py module is then applied to equations \ref{eq:phi_0} and \ref{eq:psi_0} with the initial conditions to retrieve the corresponding coefficients $\widetilde{\phi}_{0,k}$ and $\widetilde{\psi}_{0,k}$. These coefficients are then used in conjunction with the values for $\omega_k$ to find the coefficients
+
+\begin{equation}
+	c_k = \left[ \widetilde{\phi}_{0,k} \cos(\omega_k t) + \frac{\widetilde{\psi}_{0,k}}{\omega_k} \sin(\omega_k t) \right]
+\end{equation}
+
+for $k=0,..,N$. The inverse discrete sine transform is then used with the coefficients $c_k$ to get our solution $\phi$ for the wave equation.
+
+The solutions for the times $t=2,4,6,12,100$ms  are shown in figure \ref{fig:wave_FT}. The solution for the same times that were computed using the FTCS method from Lab08 are shown in figure \ref{fig:wave_FTCS}. Comparing the two methods we can see that the FTCS grows increasingly unstable and at the time $t=100$ms the solution is overshadowed by the noise of the FTCS method, whereas the spectral method remains stable over the whole time interval.
+
+The difference between the two methods, FTCS and spectral, is that the FTCS is a finite difference method that solves a pde by stepping through time with each subsequent step depending on the previous step. The spectral method has the benefit of not being a finite difference method allowing us to solve the equation for any desired time without having to solve the previous steps.
+
+However, though the spectral method allows us to solve for a subset of times each step in the spectral method has a running time of $N\log N$ which means if we use $N$ sufficiently large and wish to solve for every step from $t=0$ to $t=T_{final}$ then the FTCS method would be faster given that each of its step only has a running time of $N$.
+
+Another major disadvantage of the spectral method is that the problems it can be used to solve are limited to those that are linear with simple boundary conditions since the solution requires adding several individual solutions to get the final solution. The FTCS method doesn't depend on a linear combination of individual solutions and thus can be used to solve both linear and non-linear problems.
+
+\begin{figure}[H] 	 
+	\begin{minipage}[b]{0.33\linewidth}
+  		\includegraphics[width=1.0\linewidth]{../images/wave_eqtn_2ms.png} 
+  	\end{minipage} 
+  	\begin{minipage}[b]{0.33\linewidth}
+    	\includegraphics[width=1.0\linewidth]{../images/wave_eqtn_4ms.png} 
+  	\end{minipage} 
+  	\begin{minipage}[b]{0.33\linewidth}
+    	\includegraphics[width=1.0\linewidth]{../images/wave_eqtn_6ms.png}
+  	\end{minipage}
+  	\begin{minipage}[b]{0.33\linewidth}
+    	\includegraphics[width=1.0\linewidth]{../images/wave_eqtn_12ms.png} 
+  	\end{minipage}
+  	\begin{minipage}[b]{0.33\linewidth}
+  		\includegraphics[width=1.0\linewidth]{../images/wave_eqtn_100ms.png}
+  	\end{minipage}
+ 	\caption{Solution of the wave equation applied to the displacement of a struck piano string solved using the spectral method. Plotted for the times t = 2, 4, 6, 12, 100 milliseconds.} 
+\label{fig:wave_FT}
+\end{figure}
+
+
+\begin{figure}[H]  
+	\begin{minipage}[b]{0.33\linewidth}
+  		\includegraphics[width=1.0\linewidth]{../images/Lab08_t=2ms.png} 
+  	\end{minipage} 
+  	\begin{minipage}[b]{0.33\linewidth}
+    	\includegraphics[width=1.0\linewidth]{../images/Lab08_t=4ms.png} 
+  	\end{minipage} 
+  	\begin{minipage}[b]{0.33\linewidth}
+    	\includegraphics[width=1.0\linewidth]{../images/Lab08_t=6ms.png}
+  	\end{minipage}
+  	\begin{minipage}[b]{0.33\linewidth}
+    	\includegraphics[width=1.0\linewidth]{../images/Lab08_t=12ms.png} 
+  	\end{minipage}
+  	\begin{minipage}[b]{0.33\linewidth}
+  		\includegraphics[width=1.0\linewidth]{../images/Lab08_t=100ms.png}
+  	\end{minipage}	
+ 	\caption{Solutions of the wave equation applied to the displacement of a struck piano string solved using the FTCS method from Lab08, plotted at times t = 2, 4, 6, 12, 100 milliseconds.} 
+\label{fig:wave_FTCS} 
+\end{figure}
+
 
 \section{Crank-Nicolson method}
 
@@ -66,7 +215,7 @@ We then substitute Burger's equation for the first order time derivative in equa
 
 \begin{equation}
 	\label{eq:t_exp_2}
-	u(x,t\Delta t) = u(x,t) - \epsilon \Delta t \frac{\partial }{\partial x} \left(\frac{u^2}{2}\right) + \frac{(\epsilon\Delta t)^2}{2}\frac{\partial}{\partial x }\left(u\frac{\partial}{\partial x}\left(\frac{u^2}{2}\right) \right)
+	u(x,t+\Delta t) = u(x,t) - \epsilon \Delta t \frac{\partial }{\partial x} \left(\frac{u^2}{2}\right) + \frac{(\epsilon\Delta t)^2}{2}\frac{\partial}{\partial x }\left(u\frac{\partial}{\partial x}\left(\frac{u^2}{2}\right) \right)
 \end{equation}
 
 We then use the central difference approximation defined as 
@@ -105,7 +254,7 @@ which we substitute into equation \ref{eq:t_exp_3} to get
 \end{split}
 \end{equation}
 
-Using the average centered on $u(x\pm \Delta x/2$ we have
+Using the average centered on $u(x\pm \Delta x/2)$ we have
 \begin{equation}
 	u(x\pm \Delta x/2, t) = \frac{u(x,t)+u(x\pm \Delta x,t)}{2}
 \end{equation}

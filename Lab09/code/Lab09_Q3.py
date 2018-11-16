@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Solves Burger's equation using one Euler forward step and subsequent steps
-using the leapfrog method. Plots the solution for various times.
+Solves Burger's equation using the Lax-Wendroff method. Plots the solutions at
+times t=0, 0.5, 1.0, 1.5 seconds.
 
-Created on Thu Nov  1 07:36:40 2018
+Created on Tue Nov 13 18:21:56 2018
 @author: Pierino Zindel
 """
 
 #import libraries
 import numpy as np
 import pylab as plt
-
 
 #define constants
 epsilon = 1.0
@@ -49,14 +48,11 @@ ut[-1] = 0
 u[:,0] = 0
 u[:,-1] = 0
 
-#apply initial step with Euler forward
-#u[1] = np.sin(x)*(1 - epsilon*dt*np.cos(x))
-
 #plot initial wave for t=0
 plt.figure
 plt.plot(x, u[0], label='t=0.0')
 
-#loop over time, excluding the initial condition
+#loop over time and solve
 for j in range(0,Nt-1):
     #current time
     t = j*dt

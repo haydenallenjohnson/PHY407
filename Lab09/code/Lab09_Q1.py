@@ -1,13 +1,18 @@
 # -*- coding: utf-8 -*-
 """
+Solves the wave equation corresponding to the problem of a piano hammer
+striking a piano string. Implements the spectral method and plots the 
+displacement over time at times t = 2, 4, 6, 12, 100 milliseconds.
+
 Created on Wed Nov 14 10:53:07 2018
 
-@author: Pierino
+@author: Pierino Zindel
 """
 
+#import libraries
 import numpy as np
 import pylab as plt
-import dcst.py as dcst
+import dcst as dcst
 
 #constant of pde
 v = 100 #m/s
@@ -22,80 +27,56 @@ def psi0(x):
     return C*x*(L-x)*np.exp(-(x-d)**2/(2*sigma**2))/L**2
 
 #grid points
-N = 100
+N = 101
 #grid spacing
 a = L/N
 
 #create arrays containing the initial conditions
-x = np.linspace(0,L,N+1)
-psi = psi0(x)
-phi = np.zeros(N+1, float)
-psi_step = np.copy(psi)
-phi_step = np.copy(phi)
+x = np.linspace(0,L,N)
+psi_0 = psi0(x)
+phi_0 = np.zeros(N, float)
 
-#loop time
-t = 0.0
-t_f = 0.101
+#compute the coefficients of the intial state
+psi_coeff = dcst.dst(psi_0)
+phi_coeff = dcst.dst(phi_0)
 
-#array of positions corresponding to each loop over time
-traj = [phi]
+#containers for the coefficients returned by the discrete sine transform
+sol_coeff = []
 
-#array of times corresponding to the list of trajectories
-times = [t]
+#array of times to be plotted
+t = np.array([2,4,6,12,100])/1000
 
-#frame count
-frame = 0
+#container for the solutions at the desired times
+solutions = []
 
-#images save count
-save = 0
+#loops over the desired times and compute the solution to the wave equation
+for t_i in t:
+    #compute the omega values for each coefficient
+    k = np.arange(0,N,1)
+    omega = np.pi*v*k/L
+    #compute the coefficients of our solution
+    sol_coeff = phi_coeff*np.cos(omega*t_i) + psi_coeff/omega*np.sin(omega*t_i)
+    #compute the solution using the coefficients
+    phi = dcst.idst(np.real(sol_coeff))
+    solutions.append(phi)
 
-#loop over time
-while t < t_f:
-    #constant of integration
-    c = h*v**2/a**2
-    #FTCS stepping
-    phi_step[1:N] = phi[1:N] + h*psi[1:N]
-    psi_step[1:N] = psi[1:N] + c*(phi[2:N+1] + phi[0:N-1] - 2*phi[1:N])
-    
-    #set old array to the new displacement
-    phi = np.copy(phi_step)
-    psi = np.copy(psi_step)    
-    
-    #increase time
-    t += h
-    
-    #add current plot to container
-    traj.append(np.copy(phi_step))
-    times.append(t)
-    
-    #increase frame count for 'animation'
-    frame += 1
-    
-    #plot frame
-    if (frame % 500) == 0:
-        frame = 0
-        #plt.clf()
-        plt.figure()
-        plt.plot(x, phi)
-        plt.xlim([0,1])
-        plt.ylim([-0.0005, 0.0005])
-        plt.xlabel("Position, $x$")
-        plt.ylabel("Displacement, $\phi(x)$")
-        plt.title("Piano string displacement at t=%.5f" %t)
-        plt.grid()
-        
-        #save the plot for certain times
-        if t > 0.1 and save == 2:
-            plt.savefig("q2_t=100ms.png", dpi=600)
-            save += 1
-        elif t > 0.05 and save == 1:
-            plt.savefig("q2_t=50ms.png", dpi=600)
-            save += 1
-        elif t > 0.005 and save == 0:
-            plt.savefig("q2_t=2ms.png", dpi=600)
-            save += 1
-        
-        plt.draw()
-        plt.pause(0.01)
+#plotting fucntion
+def plot_fig(x, phi, label, save, file_name):
+    plt.figure()
+    plt.plot(x, phi)
+    plt.xlim([0,1])
+    plt.ylim([-0.0005, 0.0005])
+    plt.xlabel("Position, $x$")
+    plt.ylabel("Displacement, $\phi(x)$")
+    plt.title("Piano string displacement at " + label)
+    plt.grid()
+    if save:
+        plt.savefig("../images/"+file_name, dpi=600)
 
+#plot the solution for the desired times
+plot_fig(x, solutions[0], 't=2 ms', True, 'wave_eqtn_2ms.png')
+plot_fig(x, solutions[1], 't=4 ms', True, 'wave_eqtn_4ms.png')
+plot_fig(x, solutions[2], 't=6 ms', True, 'wave_eqtn_6ms.png')
+plot_fig(x, solutions[3], 't=12 ms', True, 'wave_eqtn_12ms.png')
+plot_fig(x, solutions[4], 't=100 ms', True, 'wave_eqtn_100ms.png')
 

@@ -88,13 +88,19 @@ while t < t_f:
         plt.grid()
         
         #save the plot for certain times
-        if t > 0.1 and save == 2:
+        if t > 0.1 and save == 4:
             plt.savefig("q2_t=100ms.png", dpi=600)
             save += 1
-        elif t > 0.05 and save == 1:
-            plt.savefig("q2_t=50ms.png", dpi=600)
+        elif t > 0.012 and save == 3:
+            plt.savefig("q2_t=12ms.png", dpi=600)
             save += 1
-        elif t > 0.005 and save == 0:
+        elif t > 0.006 and save == 2:
+            plt.savefig("q2_t=6ms.png", dpi=600)
+            save += 1
+        elif t > 0.004 and save == 1:
+            plt.savefig("q2_t=4ms.png", dpi=600)
+            save += 1
+        elif t > 0.002 and save == 0:
             plt.savefig("q2_t=2ms.png", dpi=600)
             save += 1
         
