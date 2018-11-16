@@ -10,14 +10,14 @@ schrodinger equation and compute the time evolution of a wave function given
 it's initial condition.
 """
 
+#import modules
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import scipy.constants as pc
-'''
+
 #define path to ffmpeg for animation
 plt.rcParams['animation.ffmpeg_path'] = '/Users/Hayden/ffmpeg-4.1-macos64-static/bin/ffmpeg'
-#zeranoe
 
 #define constants
 m = pc.m_e #electron mass
@@ -32,7 +32,7 @@ L = 1e-8
 a = L/N
 
 #define timestep and final time
-timesteps = 5000
+timesteps = 2000
 h = 1e-18
 t_final = timesteps*h
 
@@ -91,6 +91,9 @@ fig = plt.figure(0)
 plt.title('Time evolution of wavefunction')
 plt.xlabel('x (m)')
 plt.ylabel('$Re(\psi)$')
+plt.ylim([-1,1])
+plt.xlim([0,1e-8])
+plt.grid()
 
 #specify plots for animation (at every fifth timestep)
 plots = []
@@ -104,11 +107,11 @@ ani = animation.ArtistAnimation(fig, plots, interval=2, blit=True)
 #save the animation
 FFwriter = animation.FFMpegWriter(fps=30)
 ani.save('../images/animation.mp4', writer = FFwriter)
-'''
+
 #specfy times at which function will be plotted
 times = [0,1e-16,1e-15]
 
-#iterate over list of times:
+#iterate over list of times and create a plot for each one
 for i in range(len(times)):
     plt.figure(i+1)
     plt.plot(x, np.real(wavefunction[int(times[i]/h)]))
@@ -117,5 +120,5 @@ for i in range(len(times)):
     plt.ylabel('$Re(\psi)$')
     plt.grid()
     plt.ylim([-1,1])
+    plt.xlim([0,1e-8])
     plt.savefig('../images/q2_t='+str(times[i])+'.png')
-

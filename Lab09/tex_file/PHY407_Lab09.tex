@@ -176,6 +176,10 @@ Another major disadvantage of the spectral method is that the problems it can be
 
 We seek to use the Crank-Nicolson method to solve the full time-dependent Schrodinger equation in one dimension, and to animate the time evolution of a wavefunction given its initial conditions.
 
+The code that was written to do this is attached, in Lab09\_Q2.py. The code requires ffmpeg to be downloaded with its path specified to pyplot in order to run, and outputs an mp4 of the animation up to $t=2\times 10^{-15}$s. By watching the animation, we see that the wavefunction moves to the right as time goes on, while also spreading out. When it hits the right wall, it is reflected back and travels to the left, interfering with itself in the process. This behaviour makes sense given what we know about quantum mechanics - the particle represented by the wavefunction would start with some approximate position and velocity in the center of the well, and then its probability density function, given by $|\psi|^2$, both moves to the right (the direction of its velocity) and gets broader over time.
+
+Screenshots of the wavefunction are provided at times $t=0$s, $t=1\times 10^{-16}$s, and $t=1\times 10^{-15}$s in figures \ref{fig:q2_t=0}, \ref{fig:q2_t=1e-16}, and \ref{fig:q2_t=1e-15} respectively. From these we can see the general behaviour of the wavefunction as a function of time, and that it moves to the right until bouncing off the wall, and also spreads out as time goes on.
+
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{../images/q2_t=0.png}
@@ -196,7 +200,6 @@ We seek to use the Crank-Nicolson method to solve the full time-dependent Schrod
 	\caption{Snapshot of wavefunction at $t=1\times 10^{-15}$s.}
 	\label{fig:q2_t=1e-15}
 \end{figure}
-
 
 \section{Solving Burger's equation using Lax-Wendroff}
 For this question we desire to solve again solve Burger's equation but using the Lax-Wendroff method, to be derived, in place of the leapfrog method used in Lab08.
