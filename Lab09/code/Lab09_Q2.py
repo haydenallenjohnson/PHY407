@@ -4,13 +4,17 @@
 Created on Wed Nov 14 10:16:44 2018
 
 @author: Hayden
+
+Script which implements the Crank-Nicoloson method to solve the time-dependent
+schrodinger equation and compute the time evolution of a wave function given
+it's initial condition.
 """
 
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import scipy.constants as pc
-
+'''
 #define path to ffmpeg for animation
 plt.rcParams['animation.ffmpeg_path'] = '/Users/Hayden/ffmpeg-4.1-macos64-static/bin/ffmpeg'
 #zeranoe
@@ -82,8 +86,11 @@ for i in range(timesteps-1):
     psi_new = np.dot(AinvB, psi_old)
     wavefunction[i+1,1:-1] = psi_new
 
-#create axes for animation
+#create axes for animation plots
 fig = plt.figure(0)
+plt.title('Time evolution of wavefunction')
+plt.xlabel('x (m)')
+plt.ylabel('$Re(\psi)$')
 
 #specify plots for animation (at every fifth timestep)
 plots = []
@@ -91,10 +98,24 @@ for i in range(timesteps):
     if i%5==0:
         plots.append(plt.plot(x, np.real(wavefunction[i]), 'b'))
 
+#create the animation
 ani = animation.ArtistAnimation(fig, plots, interval=2, blit=True)
+
 #save the animation
 FFwriter = animation.FFMpegWriter(fps=30)
 ani.save('../images/animation.mp4', writer = FFwriter)
+'''
+#specfy times at which function will be plotted
+times = [0,1e-16,1e-15]
 
-plt.figure(1)
-plt.plot(x,np.real(psi0))
+#iterate over list of times:
+for i in range(len(times)):
+    plt.figure(i+1)
+    plt.plot(x, np.real(wavefunction[int(times[i]/h)]))
+    plt.title('Wavefunction at time $t=$'+str(times[i])+'s')
+    plt.xlabel('x (m)')
+    plt.ylabel('$Re(\psi)$')
+    plt.grid()
+    plt.ylim([-1,1])
+    plt.savefig('../images/q2_t='+str(times[i])+'.png')
+
