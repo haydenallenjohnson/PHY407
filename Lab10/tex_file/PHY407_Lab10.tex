@@ -25,6 +25,30 @@
 
 \section{Volume of a 10-dimensional Hypersphere}
 
+We seek to compute the volume of a 10-dimensional hypersphere, using the Monte Carlo mean value integration method, and also to estimate the error of our calculated value relative to the true value.
+
+We define an indicator function $f(x)$ which takes a value of one inside the sphere and value of zero outside of it. Then the volume of the sphere is given by:
+\begin{equation}
+	V = \int_{|x|\leq 1}f(x) dx
+\end{equation}
+Where $x \in \mathbb{R}^{10}$ and the integral is over all dimensions. Using the Monte Carlo mean value method, we consider a cubic integration region $[-1,1]^10$, which has a volume of $2^10$, and use a collection of $N$ randomly-generated points $x_i$ contained in the volume at which to evaluate $f$. The value of our integral (and thus the volume of the hypersphere) is then approximated by:
+\begin{equation}
+	I = \frac{2^{10}}{N}\sum_{i=1}^N f(x_i)
+\end{equation}
+
+
+\begin{table}[H]
+	\centering
+	\caption{Values of the volume of the hypersphere and error associated with the calculation as output by the program.}
+	\label{tab:q2}
+	\begin{tabular}{c|c}
+		Quantity & Value \\
+		\hline
+		Volume & 2.605 \\
+		Error & 0.052
+	\end{tabular}
+\end{table}
+
 \section{Importance Sampling}
 
 \end{document}

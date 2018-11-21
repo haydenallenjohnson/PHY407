@@ -4,6 +4,10 @@
 Created on Wed Nov 21 14:03:20 2018
 
 @author: Hayden
+
+Program which applies the Monte Carlo mean value integration method to an
+indicator function in order to estimate the volue of a 10-dimensional
+hypercube, along with the estimated error of the calculation.
 """
 
 #import modules
