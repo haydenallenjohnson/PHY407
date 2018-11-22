@@ -62,4 +62,94 @@ The values of the volume and associated error output by the program are presente
 
 \section{Importance Sampling}
 
+\subsection{Part a)}
+
+We seek to evaluate the integral (\ref{eq:q3_a_integral}) a total of 100 times each using both the mean value and importance sampling Monte Carlo integration methods, and then plot the results in a histogram to characterize the behaviour of the methods.
+\begin{equation}
+	\label{eq:q3_a_integral}
+	I = \int_0^1 \frac{x^{-1/2}}{1+e^x}dx
+\end{equation}
+We call the integrand function $f(x)$ where:
+\begin{equation}
+	f(x) = \frac{x^{-1/2}}{1+e^x}
+\end{equation}
+
+The computation of the integral using the regular mean value method is done using:
+\begin{equation}
+	\label{eq:q3_mv}
+	I \approx \frac{b-a}{N}\sum_{i=1}^N f(x_i)
+\end{equation}
+Where the $x_i$ are drawn randomly from a uniform distribution.
+
+For the importance sampling, we use a weighting function of $w(x) = x^{-1/2}$. The corresponding normalized probability density is:
+\begin{equation}
+	p(x) = \frac{w(x)}{\int_a^b w(x)dx} = \frac{x^{-1/2}}{\int_0^2 x^{-1/2}dx} = \frac{1}{2\sqrt{x}}
+\end{equation}
+To draw samples from the interval $[0,2]$ according to this distribution, we appeal to equation 10.7 from Newman, to see that:
+\begin{equation}
+	z = \int_a^x p(x)dx = \int_0^x \frac{dx}{2\sqrt{x}} = \sqrt{x} 
+\end{equation}
+Where $z$ are variables drawn from a uniform distribution. Hence the map from the uniform distribution to our required distribution is given by $x = z^2$.
+
+We can now compute the value of the integral using importance sampling as:
+\begin{equation}
+	\label{eq:q3_is}
+	I \approx \frac{1}{N}\sum_{i=1}^N \frac{f(x_i)}{w(x_i)} \int_a^b w(x)dx
+\end{equation}
+Where the $x_i$ are drawn from our non-uniform distribution described above.
+
+Histograms of the values computed for the integral (\ref{eq:q3_a_integral}) using both methods are displayed in figure \ref{fig:q3_a}. It is quite clear from inspection that there is a larger spread in the calculated values using the mean value method than there is from the importance method; this is what we expect to see, since both methods were evaluated using the same number of points and the importance method is designed to produce a more accurate result by taking points preferentially from areas that are more important for capturing the behaviour of the integrand.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q3_a_mv.png}
+	\end{minipage}
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q3_a_is.png}
+	\end{minipage}
+	\caption{Histogram of results for computation of the integral (\ref{eq:q3_a_integral}) using the mean value (left) and importance sampling (right) Monte Carlo methods 100 times.}
+	\label{fig:q3_a}
+\end{figure}
+
+\subsection{Part b)}
+
+We seek to evaluate the integral (\ref{eq:q3_b_integral}) a total of 100 times each using both the mean value and importance sampling Monte Carlo integration methods, and then plot the results in a histogram to characterize the behaviour of the methods.
+\begin{equation}
+	\label{eq:q3_b_integral}
+	I = \int_0^{10} e^{-2|x-5|}dx
+\end{equation}
+Our integrand function $f(x)$ is given by:
+\begin{equation}
+	\label{eq:q3_b_f}
+	f(x) = e^{-2|x-5|}
+\end{equation}
+
+The mean value method can be evaluated again using equation \ref{eq:q3_mv}, replacing the definition of $f(x)$ with equation \ref{eq:q3_b_f}.
+
+For the importance sampling method, we use a Gaussian weighting function, which corresponds to an identical probability distribution, which are given by:
+\begin{equation}
+	\label{eq:q3_b_w}
+	p(x) = w(x) = \frac{1}{\sqrt{2\pi}}e^{-(x-5)^2/2}
+\end{equation}
+We can then compute the integral using the importance sampling method by means of equation \ref{eq:q3_is}, replacing the pertinent definitions with those in equation \ref{eq:q3_b_w}, and noting that:
+\begin{equation}
+	\int_0^{10} w(x)dx = \int_0^{10} \frac{1}{\sqrt{2\pi}}e^{-(x-5)^2/2}dx \cong 1
+\end{equation}
+
+Histograms of the values computed for the integral (\ref{eq:q3_b_integral}) using both methods are displayed in figure \ref{fig:q3_b}. It is quite clear from inspection that, as in part a), there is again a larger spread in the calculated values using the mean value method than there is from the importance method; this is what we expect to see, since both methods were evaluated using the same number of points and the importance method is designed to produce a more accurate result by taking points preferentially from areas that are more important for capturing the behaviour of the integrand.
+
+\begin{figure}[H]
+	\centering
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q3_b_mv.png}
+	\end{minipage}
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q3_b_is.png}
+	\end{minipage}
+	\caption{Histogram of results for computation of the integral (\ref{eq:q3_b_integral}) using the mean value (left) and importance sampling (right) Monte Carlo methods 100 times.}
+	\label{fig:q3_b}
+\end{figure}
+
+
 \end{document}
