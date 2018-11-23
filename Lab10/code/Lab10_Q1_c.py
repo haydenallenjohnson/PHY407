@@ -84,7 +84,7 @@ def plot_traj(traj, save):
     plt.show()
     
 #container for positions of all stuck particles
-particles = np.zeros([2000,2])
+particles = np.zeros([5000,2])
 #bool to quit the program when the starting point is stuck
 quit_loop = False
 #seed the random generator
