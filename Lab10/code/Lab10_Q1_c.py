@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Plots the 2D Brownian motion of particles in a grid of size 100, where the
+Plots the 2D Brownian motion of particles in a grid of size 150, where the
 particles are free to move up, down, left, and right within the bounds and 
-become stuck to adjacent boundaries and particles.
+become stuck to adjacent boundaries and particles. Program terminates when 
+the particles are stuck upon spawning.
 
 Created on Wed Nov 21 10:10:20 2018
-@author: Pierino Zindel
-"""
+@author: Pierino Zindel"""
 #import libraries
 import numpy as np
 import pylab as plt
@@ -14,14 +14,12 @@ from time import time
 from random import randint, seed
 
 #parameters of our problem
-L = 101 #grid length
+L = 151 #grid length
 N = 100 #number of particles
-#frames of the animation to skip
-skip = 20
 
 #function that randomly moves the particle and returns the coordinates
 def move(i,j):
-    #generate a random number corresponding to a direction
+    #generate a random number
     n = randint(1,4)
     #move the position using the random number
     if n == 1:
@@ -36,6 +34,7 @@ def move(i,j):
         raise Exception("invalid move for particle; random value outside of \
                         range")
     return i,j
+
 
 #function to check the boundary and returns turn if the particle becomes stuck
 def stuck_check(i,j,particles):
@@ -54,22 +53,21 @@ def stuck_check(i,j,particles):
             return True
     return False
 
-#function that plots position of particle at x,y and all stuck particles
-def plot_traj(x,y,traj,save):
+#function that plots the positions of all stuck particles 
+def plot_traj(traj, save):
     plt.figure()
     plt.title("2D Brownian Motion Simulation")
     plt.ylabel("y position")
     plt.xlabel("x position")
-    plt.xlim(0,100)
-    plt.ylim(0,100)
-    plt.plot(x,y,'.',c='red')
+    plt.xlim(0,150)
+    plt.ylim(0,150)
     coord = np.array(traj)
     if len(traj) > 0: plt.plot(coord[:,0], coord[:,1], '.',c='blue')
     plt.grid()
     if save:
-        plt.savefig("../images/brownian_trajectories_n=100.png", dpi=500)
+        plt.savefig("../images/brownian_dla.png", dpi=500)
     plt.show()
-
+    
 #container for positions of all stuck particles
 particles = []
 #container for the trajectories of all particles
@@ -80,14 +78,14 @@ quit_loop = False
 seed(time())
 
 #loop over each particle
-for k in range(N):
+while True:
     #set starting position
     i = L//2
     j = L//2
     #containers for the particles trajectory
     x = [i]
     y = [j]
-    #tracking varibles for terminating the program when done
+    #tracking variables for terminating the program when done
     stuck = False
     step_count = 0
     
@@ -101,19 +99,17 @@ for k in range(N):
         y.append(j)
         #check if the particle is done moving
         stuck = stuck_check(i,j,np.array(particles))
-       #terminate loop if stuck particles have reached starting position 
+        #terminate loop if stuck particles have reached starting position
         if stuck and step_count < 2:
             quit_loop = True
             break
-        #plot the steps for every tenth frame
-        if step_count % skip == 0:
-            plot_traj(i,j,particles,False)
-        
+    
     #store the final coordinates of the particle
     particles.append([i,j])
-    #terminate loop if stuck particles have reached starting position
+    #plot position of stuck particles
+    plot_traj(particles, False)
+    #terminate loop if stuck particles have reach starting position
     if quit_loop: break
 
 #plot final positions of all particles and save the figure
-plot_traj(i,j,particles, False)
-
+plot_traj(particles, True)

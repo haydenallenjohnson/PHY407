@@ -22,6 +22,37 @@
 \noindent \textbf{Distribution of work:} Question 1 was completed by Pierino. Questions 2 and 3 were completed by Hayden.
 
 \section{Brownian Motion and Diffusion Limited Aggregation}
+For this question we seek to simulate Brownian motion in a 2D space. First we simulate one particle that is bounded in a grid and doesn't interact with the boundary. We then extend this problem to multiple particles where each particle is allowed to walk until it reaches the boundary and adheres. Once the particle adhere is becomes an extension of the boundary and the next particle is spawned to undergo Brownian motion. The result is a Diffusion-Limited Aggregation.
+
+\subsection{Part a)}
+We begin by defining a 2D $100\times 100$ grid and placing a particle in the center. Simplified Brownian motion is then simulated by randomly generating a random number and then moving the particle up, down, left, or right depending on the random number. If the particle collides with the bounds of the grid it doesn't interact and just moves in one of the remaining three directions. The particles trajectory for $5000$ moves is plotted and shown in figure \ref{fig:q1_a}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../images/Brownian_motion.png}
+	\caption{Brownian motion trajectory of a particle in a bounded 2D grid.}
+	\label{fig:q1_a}
+\end{figure}
+
+\subsection{Part b)}
+We now extend this problem to multiple particles. The behavior of the particles is changed such that when the boundary is reach the particle become attached to it and becomes part of the boundary for attachment of subsequent particles. Each particle is spawned and allowed to move until attachment, one after the other. Running the provided code shows the movement of the particles within the grid with stuck particles. The final positioning of 100 stuck particles is shown in figure \ref{fig:q1_b}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../images/brownian_trajectories_n=100.png}
+	\caption{Final layout of 100 particles simulated to undergo Brownian motion in an aggregating 2D grid.}
+	\label{fig:q1_b}
+\end{figure}
+
+\subsection{Part c)}
+The code from part b is now modified to exclude the traveling particle and run for an indefinite number of particles on a $150\times 150$ grid until the stuck particles have agglomerated into the center grid, spawn position. The resulting diffusion-limited aggregation pattern is shown in figure \ref{fig:q1_c}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../images/brownian_dla.png}
+	\caption{Diffusion-limited aggregation pattern resulting from Brownian motion of particles in a 2D grid.}
+	\label{fig:q1_c}
+\end{figure}
 
 \section{Volume of a 10-dimensional Hypersphere}
 
