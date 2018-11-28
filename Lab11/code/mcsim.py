@@ -55,9 +55,10 @@ energy_n = n[:,0]**2 + n[:,1]**2 + n[:,2]**2
 plt.figure(1)
 plt.clf()
 plt.ylabel('Frequency')
-plt.xlabel('')
+plt.xlabel('Normalized energy $e_n = n^2$')
 hist_output = plt.hist(energy_n, 50)
-'''
+plt.savefig('../images/q1a_energy_hist.png')
+
 # This is the frequency distribution
 energy_frequency = hist_output[0]
 # This is what the x-axis of the plot should look like
@@ -70,4 +71,6 @@ n_vals = energy_vals**0.5
 plt.figure(2)
 plt.clf()
 plt.bar(n_vals, energy_frequency, width=0.1)
-'''
+plt.ylabel('Frequency')
+plt.xlabel('Value of $n=\sqrt{e_n}$')
+plt.savefig('../images/q1a_n_hist.png')
