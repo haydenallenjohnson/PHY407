@@ -10,12 +10,12 @@ from math import exp,pi
 import numpy as np
 import matplotlib.pyplot as plt
 
-T = 10.0
+T = 10
 N = 1000
 steps = 250000
 
 # Create a 2D array to store the quantum numbers
-n = ones([N,3],int)
+n = np.ones([N,3],int)
 
 # Main loop
 eplot = []
@@ -43,9 +43,9 @@ for k in range(steps):
 # Make the graph
 plt.figure(0)
 plt.plot(eplot)
+plt.title('Energy of the system over time')
 plt.ylabel("Energy")
 plt.xlabel("Number of steps")
-
 plt.savefig('../images/q1a_energy.png')
 
 #This calculates the energy of each particle, neglecting constant factors
@@ -54,6 +54,7 @@ energy_n = n[:,0]**2 + n[:,1]**2 + n[:,2]**2
 # This calculates the frequency distribution and creates a plot 
 plt.figure(1)
 plt.clf()
+plt.title('Histogram of normalized energy')
 plt.ylabel('Frequency')
 plt.xlabel('Normalized energy $e_n = n^2$')
 hist_output = plt.hist(energy_n, 50)
@@ -71,6 +72,11 @@ n_vals = energy_vals**0.5
 plt.figure(2)
 plt.clf()
 plt.bar(n_vals, energy_frequency, width=0.1)
+plt.title('Histogram of values of $n$')
 plt.ylabel('Frequency')
 plt.xlabel('Value of $n=\sqrt{e_n}$')
 plt.savefig('../images/q1a_n_hist.png')
+
+#compute average value of n
+n_av = np.sum(energy_frequency*n_vals)/np.sum(energy_frequency)
+print('Average value of n:',n_av)
