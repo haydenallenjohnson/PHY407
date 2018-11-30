@@ -85,5 +85,5 @@ plt.xlabel("Number of flips")
 plt.ylabel("Total magnetization")
 
 plt.tight_layout()
-plt.savefig('1D_ising.png')
+plt.savefig('../images/1D_ising.png')
 plt.show()
