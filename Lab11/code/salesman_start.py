@@ -5,7 +5,7 @@
 
 import numpy as np
 import matplotlib.pyplot as plt
-from random import random, randrange
+from random import random, randrange, seed
 
 
 def mag(x):
@@ -26,8 +26,10 @@ N = 25
 R = 0.02
 Tmax = 10.0
 Tmin = 1e-3
-tau = 1e4
+tau = 2e4
 
+# Fixed seed for locations
+seed(1)
 
 # Choose N city locations and calculate the initial distance
 r = np.empty([N+1, 2], float)
@@ -42,6 +44,9 @@ plt.figure(1)
 plt.plot(r[:, 0], r[:, 1], 'o-',  markersize=6, linewidth=2, color='k')
 plt.draw()
 plt.pause(0.001)
+
+# Seed for optimization
+seed(100)
 
 # Main loop
 t = 0
@@ -77,3 +82,21 @@ while T > Tmin:
         r[i, 0], r[j, 0] = r[j, 0], r[i, 0]
         r[i, 1], r[j, 1] = r[j, 1], r[i, 1]
         D = oldD
+    
+    print(D, deltaD)
+    
+# seed=10:   D=5.048158801854491
+# seed=20:   D=5.514809565119083
+# seed=50:   D=5.5223266993026545
+# seed=100:  D=4.774048858073075
+# seed=1000: D=5.0947033729005495
+
+label = "Distance="+str(D)
+plt.figure()
+plt.title("Path Optimization (Seed=100, Tau="+str(tau)+")")
+plt.xlabel("x position")
+plt.ylabel("y position")
+plt.plot(r[:, 0], r[:, 1], 'o-', markersize=6, linewidth=2, color='k', label=label)
+plt.grid()
+plt.legend()
+#plt.savefig("../images/q1_s=100_t="+str(tau)+".png", dpi=500)

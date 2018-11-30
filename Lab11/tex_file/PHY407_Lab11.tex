@@ -94,8 +94,83 @@ For each temperature, we computed the average value of $n$ using equation 5 from
 \end{figure}
 
 \section{Simulated Annealing Warm-up}
+For this question the desire is to observe the behaviors of a simulated annealing problem. A provided program uses simulated annealing by choosing a set of points and then calculating the shortest round trip, going through each point only once. We modified the program in such a way as to fixed the set of points over the course of several runs using a fixed seed of $1$ for our pseudo-random number generator(PRNG), and then proceeded to alter the starting point of the optimization code using a unique random number seed for each run. Three of the resulting paths using seed of $50$, $100$, and $1000$ are shown in figure \ref{fig:q3_seeds}. Running the program with 10 different seeds resulted in a distance measure that ranged from ca. $D=4.77$ to $D=5.53$ as a result from taking different final paths. 
+We then chose a fixed optimization path using the seed of $100$ and decreased the scheduling time scale $\tau$ from $1e4$ in figure \ref{fig:q3_seeds} to $1e3$ in figure \ref{fig:q3_t=1000}. Comparing the two results, the one with a short scheduling time $\tau=1e3$ took less time to solve however we can see from the images that the resulting path is not as optimized. The shorter scheduling time resulted in a much larger final distance of ca. $D=5.78$ which exceeds our seed dependent range previously stated. Using the same path seed again, we then increased the time scale to $\tau=2e4$ and the resulting path and distance is shown in figure \ref{fig:q3_t=20000}. We initially increased the time scale to $tau=1e5$ however this resulted in a run time that seems indefinite. Even just doubling the time scale resulted in a much higher run time and from figures \ref{fig:q3_seeds} and \ref{fig:q3_t=20000} we can see the final path of the larger scheduling time scale actually results in a longer distance of $D=5.16$. Thus for our data is seems that increasing or decreasing the cooling time results in worse optimized solution with a larger distance than that using a cooling time of $\tau=1e4$. 
+
+\begin{figure}[H]
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q3_s=50.png}
+	\end{minipage}
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q3_s=100.png}
+	\end{minipage}
+	\centering
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q3_s=1000.png}
+	\end{minipage}
+	\caption{Plots showing various optimizations to the Traveling salesman problem.}
+	\label{fig:q3_seeds}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../images/q3_s=100_t=1000.png}
+	\caption{Plots showing the same optimization path as the second image of figure \ref{fig:q3_seeds} but with a short scheduling time parameter.}
+	\label{fig:q3_t=1000}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{../images/q3_s=100_t=20000.png}
+	\caption{Plots showing the same optimization path as the second image of figure \ref{fig:q3_seeds} but with a longer scheduling time parameter.}
+	\label{fig:q3_t=20000}
+\end{figure}
 
 \section{Dimer Covering Problem}
+For this question we seek to solve a problem analogous to the dimer covering problem found in condensed matter physics. We do this by simplifying our problem such that our surface is a square grid and the dimers are objects that take up 2 adjacent points on the grid. For our program we use a pseudo-random number generator (PRNG) to randomly choose where on the grid the dimers will be placed. Using a fixed seed we can simulate the problem in a repeatable manner such that we can later alter parameters of the data to get new results. Once the dimers have a randomly chosen set of coordinates, we check to see if the space is occupied. If the space is free then the dimer is placed there and if the new dimer coincides with a previous one than the placed dimer is removed depending on a given Boltzmann probability. The resulting covers for time scale values of $\tau = 10^4, 10^3, 10^2, 10$ are shown in figures \ref{fig:q4_dimers_t=1e4}, \ref{fig:q4_dimers_t=1e3}, \ref{fig:q4_dimers_t=1e2}, and \ref{fig:q4_dimers_t=1e1} respectively. We can see that as our time scale is decreased the total number of covering dimers is significantly decreased. We then plotted the energy of the systems as a function of time where each dimer placed on the grid contributes a energy of $-1$ and each newly spawned dimer (not necessarily placed) counts as a time step. The energy plots of the corresponding covers are shown in figures \ref{fig:q4_dimers_t=1e4}, \ref{fig:q4_dimers_t=1e3}, \ref{fig:q4_dimers_t=1e2}, and \ref{fig:q4_dimers_t=1e1}. From these plots we can see that for a small enough time scale the energy curve appears linear since it only contains a small sample of the large time scale energy curve. As the time scale is increased and the grid begins to fill up, the program tends towards removing and adding dimers at a similar rate resulting to a curve that exhibits reciprocal behavior. We note that for $\tau=10^4$ the energy curve starts to show noise below $E=-800$ presumably due to the behavior of the PRNG and the probability of removing dimers.
 
+\begin{figure}[H]
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_dimers_t=1e4.png}
+	\end{minipage}
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_energy_t=1e4.png}
+	\end{minipage}
+	\caption{Dimer covering and corresponding energy curve as a result of simulated annealing with a time scale of $\tau = 10^4$}
+	\label{fig:q4_dimers_t=1e4}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_dimers_t=1e3.png}
+	\end{minipage}
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_energy_t=1e3.png}
+	\end{minipage}
+	\caption{Dimer covering and corresponding energy curve as a result of simulated annealing with a time scale of $\tau = 10^3$}
+	\label{fig:q4_dimers_t=1e3}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_dimers_t=1e2.png}
+	\end{minipage}
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_energy_t=1e2.png}
+	\end{minipage}
+	\caption{Dimer covering and corresponding energy curve as a result of simulated annealing with a time scale of $\tau = 10^2$}
+	\label{fig:q4_dimers_t=1e2}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_dimers_t=1e1.png}
+	\end{minipage}
+	\begin{minipage}{0.49\linewidth}
+		\includegraphics[width=\linewidth]{../images/q4_energy_t=1e1.png}
+	\end{minipage}
+	\caption{Dimer covering and corresponding energy curve as a result of simulated annealing with a time scale of $\tau = 10$}
+	\label{fig:q4_dimers_t=1e1}
+\end{figure}
 
 \end{document}
