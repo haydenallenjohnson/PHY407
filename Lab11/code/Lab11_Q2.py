@@ -4,11 +4,20 @@
 Created on Thu Nov 29 23:55:11 2018
 
 @author: Hayden
+
+Program which runs a Metropolis-style Monte Carlo simulation of the Ising model
+of a magnet and calculates the total magnetization of the system over time. The
+program also plots the stte of the system at a subset of the timesteps to
+create a crude animation of the magnetization process.
 """
 
 #import modules
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+#define path to ffmpeg for animation
+plt.rcParams['animation.ffmpeg_path'] = '/Users/Hayden/ffmpeg-4.1-macos64-static/bin/ffmpeg'
 
 #define function to compute energy of the system
 def energy(dipoles):
@@ -16,14 +25,15 @@ def energy(dipoles):
     horiz = np.sum(dipoles[:,:-1]*dipoles[:,1:])
     return -J*(vert + horiz)
 
-# define constants
+#define constants
 k_B = 1.0
 T = 1.0
 J = 1.0
-grid_size = 20
 
-#specify number of flibs
-N = 200000
+#specify simulation parameters
+grid_size = 20
+framerate = 200
+N = 100000 #number of flips
 
 #initialize arrays to store magnetization
 magnetization = np.empty(N)
@@ -31,6 +41,13 @@ magnetization = np.empty(N)
 #initialize array of dipoles
 dipoles = np.random.choice([-1,1], size=(grid_size, grid_size))
 E_old = energy(dipoles)
+
+#initialize figure for plotting state of system
+fig = plt.figure(0)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Evolution of system with T='+str(T))
+plots = []
 
 #initialze loop
 for k in range(N):
@@ -60,6 +77,18 @@ for k in range(N):
     #compute the total magnetization and update the array
     magnetization[k] = np.sum(dipoles)
     
+    #plot the state of the system at a frequency specified by framerate
+    if k%framerate == 0:
+        plots.append([plt.imshow(dipoles, animated=True)])
+
+#create the animation
+ani = animation.ArtistAnimation(fig, plots, interval=2, blit=True)
+
+#save the animation
+FFwriter = animation.FFMpegWriter(fps=30)
+ani.save('../images/animation.mp4', writer = FFwriter)
+
+
 #plot magnetization over time
 plt.figure()
 plt.plot(magnetization)
@@ -67,4 +96,4 @@ plt.grid()
 plt.xlabel('Number of steps')
 plt.ylabel('Total magnetization')
 plt.title('Magnetization of the system over time')
-plt.savefig('../images/q2_magnetization.png')
+#plt.savefig('../images/q2_magnetization.png')
