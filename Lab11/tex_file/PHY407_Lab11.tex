@@ -82,6 +82,18 @@ For each temperature, we computed the average value of $n$ using equation 5 from
 
 \section{Ising Model}
 
+We seek to create a program which runs a Metropolis-style Monte Carlo simulation of the Ising model
+of a magnet and calculates the total magnetization of the system over time. The
+program also plots the state of the system at a subset of the timesteps to
+create an animation of the magnetization process.
+
+The program written to do this is included in the file Lab11\_Q2.py. Initially, the array of dipoles is created with random orientations of either $+1$ or $-1$ at each point. The program then iterates over the specified number of steps, at each step randomly choosing one dipole to flip, computing the new energy with the flipped dipole, and then deciding whether to keep or reject the flip based on the Metropolis acceptance formula (10.60 from Newman). The total magnetization of the system, which is just the sum of all the dipole orientations, is then plotted as a function of time. The program was run several times with $T=1$; in each instance, the total magnetization would start near zero, since the sum of the 400 random initial values should be about zero, and then drifts randomly before eventually moving to one extreme value or the other, either $+400$ or $-400$, which correspond to all of the spins being either up or down, respectively (examples shown in figure \ref{fig:q2_magnetization}). This makes sense, as the system prefers to move into states with lower energy (as given by equation \ref{eq:energy}), and the energy of a given pair of dipoles is higher when they are anti-aligned and lower when they are aligned. Hence, the system starts near zero total magnetization, at which point the total change is effectively random, but once it drifts far enough to one side such as to make the chances of aligning with the dominant existing alignment sufficiently favourable, that alignment ``takes over'' the whole system and it settles into its ground state.
+
+\begin{equation}
+	E = -J\sum_{\langle ij \rangle}s_i s_j
+	\label{eq:energy}
+\end{equation}
+
 \begin{figure}[H]
 	\begin{minipage}{0.49\linewidth}
 		\includegraphics[width=\linewidth]{../images/q2_magnetization_pos.png}
@@ -91,6 +103,33 @@ For each temperature, we computed the average value of $n$ using equation 5 from
 	\end{minipage}
 	\caption{Plots of total magnetization of the system over time. The system can spontaneously drift to either a completely positive (left) or completely negative (right) magnetization, with an equal chance of either occurring, based on the initial conditions and early random dipole flips.}
 	\label{fig:q2_magnetization}
+\end{figure}
+
+Running the simulation for one million time steps for three different temperatures, $T=(1,2,3)$, we produced the graphs of total magnetization over time presented in figures \ref{fig:q2_mag_T=1}, \ref{fig:q2_mag_T=2}, and \ref{fig:q2_mag_T=3}. For each temperature, an animation of the state of the system over time was produced using matplotlib.animation. In the case of $T=1$, we could observe that the system would start with all of the dipoles at random values, looking somewhat like a checker board, and would quickly coalesce into groups of adjacent dipoles all having the same orientation in close proximity to each other, producing a pattern like the spots on a cow. Then these groups would slowly grow larger or smaller, and as soon as one orientation became significantly more prevalent than the other, the dominant one would ``take over'' the whole system. Dipoles in the middle of established groups would occasionally flip their signs, but these changes would be quickly reversed.
+
+In the case of $T=2$, the same general behaviour was repeated, although there was far more noise present in the system, with random dipoles flipping and staying flipped much more often. This makes sense, given that at higher temperature the probability of accepting a move which increases the energy of a system is higher, as described by the Metropolis acceptance formula that we used. Indeed, as we can see from figure \ref{fig:q2_mag_T=2}, the system did establish a general preference for one orientation in particular, (negative/down in the case shown), but there was still a large number of dipoles pointing the opposite direction at any given time, which would continue to pop up and then flip back as others did the same.
+
+For $T=3$, as we can see from figure \ref{fig:q2_mag_T=3}, the probability of accepting moves that increase energy seems to be high enough such as to prevent the system from ever settling into any equilibrium. Indeed, this was borne out by the animation as well, where the system effectively just looked like television static, with random dipoles flipping back and forth with no structure at all, and with the average total magnetization staying around zero.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_magnetization_T=1.png}
+	\caption{Plot of total system energy as a function of time for the system when $T=1$.}
+	\label{fig:q2_mag_T=1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_magnetization_T=2.png}
+	\caption{Plot of total system energy as a function of time for the system when $T=2$.}
+	\label{fig:q2_mag_T=2}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../images/q2_magnetization_T=3.png}
+	\caption{Plot of total system energy as a function of time for the system when $T=3$.}
+	\label{fig:q2_mag_T=3}
 \end{figure}
 
 \section{Simulated Annealing Warm-up}

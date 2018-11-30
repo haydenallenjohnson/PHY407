@@ -7,8 +7,8 @@ Created on Thu Nov 29 23:55:11 2018
 
 Program which runs a Metropolis-style Monte Carlo simulation of the Ising model
 of a magnet and calculates the total magnetization of the system over time. The
-program also plots the stte of the system at a subset of the timesteps to
-create a crude animation of the magnetization process.
+program also plots the state of the system at a subset of the timesteps to
+create an animation of the magnetization process.
 """
 
 #import modules
@@ -32,8 +32,8 @@ J = 1.0
 
 #specify simulation parameters
 grid_size = 20
-framerate = 200
-N = 100000 #number of flips
+framerate = 1000
+N = 1000000 #number of flips
 
 #initialize arrays to store magnetization
 magnetization = np.empty(N)
@@ -86,14 +86,13 @@ ani = animation.ArtistAnimation(fig, plots, interval=2, blit=True)
 
 #save the animation
 FFwriter = animation.FFMpegWriter(fps=30)
-ani.save('../images/animation.mp4', writer = FFwriter)
-
+ani.save('../images/animation_T='+str(T)[0]+'.mp4', writer = FFwriter)
 
 #plot magnetization over time
-plt.figure()
+plt.figure(1)
 plt.plot(magnetization)
 plt.grid()
 plt.xlabel('Number of steps')
 plt.ylabel('Total magnetization')
-plt.title('Magnetization of the system over time')
-#plt.savefig('../images/q2_magnetization.png')
+plt.title('Magnetization of the system over time for T='+str(T))
+plt.savefig('../images/q2_magnetization_T='+str(T)[0]+'.png')
